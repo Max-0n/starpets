@@ -64,7 +64,7 @@
           p.text-size-18.text-weight-500 3 предмета в корзине
 
         .header__cart-dropdown__list
-          ProductCardWide(v-for="item in 3" :key="item")
+          ProductCardWide(v-for="item in 5" :key="item")
 
         .header__cart-dropdown__total.mt10
           p.text-weight-500 Сумма покупки
@@ -166,6 +166,8 @@ header {
           flex-direction: column;
           gap: 10px;
           margin: 20px 0;
+          max-height: 280px;
+          overflow: auto;
         }
 
         &__total {
