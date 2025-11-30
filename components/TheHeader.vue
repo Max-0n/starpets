@@ -84,8 +84,8 @@ import avaImage from '~/assets/images/ava.jpg'
 
 const route = useRoute()
 const isActiveCart = ref(false)
-const { login, isAuthenticated, isLoading } = useAuth()
 const appStore = useAppStore()
+const { login, isAuthenticated, isLoading } = appStore
 
 const isActive = (path: string) => {
   return route.path === path
