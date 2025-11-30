@@ -6,6 +6,7 @@ export const useAppStore = defineStore('appStore', () => {
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   const cart = ref<Product[]>([])
+  const isAsideOpen = ref(false)
 
   const setUser = (userData: User) => {
     user.value = userData
@@ -85,6 +86,26 @@ export const useAppStore = defineStore('appStore', () => {
 
   const isAuthenticated = computed(() => !!user.value)
 
+  const openAside = () => {
+    isAsideOpen.value = true
+  }
+
+  const closeAside = () => {
+    // На больших экранах (1440px+) aside нельзя закрыть
+    if (typeof window !== 'undefined' && window.innerWidth >= 1440) {
+      return
+    }
+    isAsideOpen.value = false
+  }
+
+  const toggleAside = () => {
+    if (isAsideOpen.value) {
+      closeAside()
+    } else {
+      openAside()
+    }
+  }
+
   return {
     user,
     isLoading,
@@ -92,6 +113,7 @@ export const useAppStore = defineStore('appStore', () => {
     isAuthenticated,
     cart,
     cartTotal,
+    isAsideOpen,
     setUser,
     clearUser,
     login,
@@ -99,5 +121,8 @@ export const useAppStore = defineStore('appStore', () => {
     removeFromCart,
     clearCart,
     purchaseCart,
+    openAside,
+    closeAside,
+    toggleAside,
   }
 })

@@ -122,7 +122,7 @@ aside {
   display: flex;
   flex-direction: column;
   overflow: auto;
-  z-index: 100;
+  z-index: 101;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 

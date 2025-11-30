@@ -41,7 +41,7 @@
         p.text-weight-500 Зелье
 
     .market__filters
-      UIButton(appearance="white" withoutPadding).size-46
+      UIButton(appearance="white" withoutPadding @click="appStore.openAside").size-46
         UIIcon(name="filters").size-24
 
       .market__search
