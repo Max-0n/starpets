@@ -53,7 +53,7 @@
 
           .header__cart-info.text-color-black
             p.text-size-12 К покупке
-            p.text-weight-700 0 $
+            p.text-weight-700 {{ formattedCartTotal }}
 
           UIIcon(name="arrowRight" :class="{ 'active': isActiveCart }").size-18.header__cart-arrow
 
@@ -61,20 +61,25 @@
         .header__cart-dropdown__row
           UIBadge(color="orange" size="md")
             UIIcon(name="cartBag").size-32
-          p.text-size-18.text-weight-500 3 предмета в корзине
+          p.text-size-18.text-weight-500 {{ cartItemsCount }} предмета в корзине
 
         .header__cart-dropdown__list
-          ProductCardWide(v-for="item in 5" :key="item")
+          ProductCardWide(
+            v-for="product in appStore.cart"
+            :key="product.id"
+            :product="product"
+            @remove="handleRemoveFromCart"
+          )
 
         .header__cart-dropdown__total.mt10
           p.text-weight-500 Сумма покупки
-          p.text-weight-700.text-color-black 2 999.97 $
+          p.text-weight-700.text-color-black {{ formattedCartTotal }}
 
-        UIButton(appearance="primary" wide).mt10
+        UIButton(appearance="primary" wide @click="handlePurchase").mt10
           UIIcon(name="cart").size-24
           p Купить
 
-        UIButton(appearance="secondary" wide).mt10
+        UIButton(appearance="secondary" wide @click="handleClearCart").mt10
           p Очистить корзину
 </template>
 
@@ -86,8 +91,8 @@ import avaImage from '~/assets/images/ava.jpg'
 const route = useRoute()
 const isActiveCart = ref(false)
 const appStore = useAppStore()
-const { login } = appStore
-const { isAuthenticated, isLoading, user } = storeToRefs(appStore)
+const { login, clearCart, purchaseCart, removeFromCart } = appStore
+const { isAuthenticated, isLoading, user, cart, cartTotal } = storeToRefs(appStore)
 
 const isActive = (path: string) => {
   return route.path === path
@@ -107,6 +112,27 @@ const formattedBalance = computed(() => {
 const userLogin = computed(() => {
   return user.value?.login || 'StarPets LTD'
 })
+
+const cartItemsCount = computed(() => {
+  return cart.value.length
+})
+
+const formattedCartTotal = computed(() => {
+  const total = cartTotal.value || 0
+  return `${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $`
+})
+
+const handleClearCart = () => {
+  clearCart()
+}
+
+const handlePurchase = () => {
+  purchaseCart()
+}
+
+const handleRemoveFromCart = (productId: string) => {
+  removeFromCart(productId)
+}
 </script>
 
 <style lang="scss" scoped>

@@ -225,8 +225,7 @@ const productsQuery = useProducts(requestParams)
 
 // Обработчик добавления в корзину
 const handleAddToCart = (product: Product) => {
-  // TODO: Реализовать добавление в корзину
-  console.log('Add to cart:', product)
+  appStore.addToCart(product)
 }
 </script>
 

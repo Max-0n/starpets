@@ -1,3 +1,5 @@
+import type { Product } from '~/types/product'
+
 export interface User {
   balance: number
   login: string
@@ -20,6 +22,7 @@ export const useAppStore = defineStore('appStore', () => {
   const user = ref<User | null>(null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
+  const cart = ref<Product[]>([])
 
   const setUser = (userData: User) => {
     user.value = userData
@@ -61,6 +64,42 @@ export const useAppStore = defineStore('appStore', () => {
     }
   }
 
+  const addToCart = (product: Product) => {
+    cart.value.push(product)
+  }
+
+  const removeFromCart = (productId: string) => {
+    const index = cart.value.findIndex(p => p.id === productId)
+    if (index !== -1) {
+      cart.value.splice(index, 1)
+    }
+  }
+
+  const clearCart = () => {
+    cart.value = []
+  }
+
+  const cartTotal = computed(() => {
+    return cart.value.reduce((sum, product) => sum + product.price, 0)
+  })
+
+  const purchaseCart = () => {
+    if (!user.value) {
+      alert('Необходимо войти в систему')
+      return false
+    }
+
+    const total = cartTotal.value
+    if (user.value.balance < total) {
+      alert('Недостаточно средств на балансе')
+      return false
+    }
+
+    user.value.balance -= total
+    clearCart()
+    return true
+  }
+
   const isAuthenticated = computed(() => !!user.value)
 
   return {
@@ -68,8 +107,14 @@ export const useAppStore = defineStore('appStore', () => {
     isLoading,
     error,
     isAuthenticated,
+    cart,
+    cartTotal,
     setUser,
     clearUser,
     login,
+    addToCart,
+    removeFromCart,
+    clearCart,
+    purchaseCart,
   }
 })
