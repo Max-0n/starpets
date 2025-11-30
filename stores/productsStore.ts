@@ -31,6 +31,7 @@ export const useProductsStore = defineStore('productsStore', () => {
   const selectedRarityIndices = ref<number[]>([])
   const selectedProperties = ref<string[]>([])
   const selectedSort = ref<'popularity' | 'price'>('popularity')
+  const selectedTypes = ref<('egg' | 'pet' | 'potion')[]>([])
 
   const selectedRarities = computed<ProductRarity[]>(() => {
     const rarityColors = ['blue', 'purple', 'green', 'red', 'grey']
@@ -134,14 +135,34 @@ export const useProductsStore = defineStore('productsStore', () => {
     fetchProducts()
   }
 
+  // Методы управления типами
+  const toggleType = (type: 'egg' | 'pet' | 'potion') => {
+    const idx = selectedTypes.value.indexOf(type)
+    if (idx > -1) {
+      selectedTypes.value.splice(idx, 1)
+    } else {
+      selectedTypes.value.push(type)
+    }
+    fetchProducts()
+  }
+
+  const removeType = (type: 'egg' | 'pet' | 'potion') => {
+    const idx = selectedTypes.value.indexOf(type)
+    if (idx > -1) {
+      selectedTypes.value.splice(idx, 1)
+      fetchProducts()
+    }
+  }
+
   // Параметры запроса по умолчанию
   const getRequestParams = (): FetchProductsRequest => {
-    const baseTypes = [
-      { type: 'transport' as const },
-      { type: 'pet' as const },
-      { type: 'egg' as const },
-      { type: 'potion' as const },
-    ]
+    // Если выбраны типы - используем только их, иначе все
+    const baseTypesList: Array<'transport' | 'pet' | 'egg' | 'potion'> =
+      selectedTypes.value.length > 0
+        ? [...selectedTypes.value, 'transport'] // transport всегда включен
+        : ['transport', 'pet', 'egg', 'potion']
+
+    const baseTypes = baseTypesList.map(type => ({ type }))
 
     // Формируем фильтры для каждого типа
     const types = baseTypes.map(type => {
@@ -224,6 +245,7 @@ export const useProductsStore = defineStore('productsStore', () => {
     selectedRarities,
     selectedProperties,
     selectedSort,
+    selectedTypes,
     setProducts,
     addProducts,
     clearProducts,
@@ -237,6 +259,8 @@ export const useProductsStore = defineStore('productsStore', () => {
     toggleProperty,
     clearProperties,
     setSort,
+    toggleType,
+    removeType,
     fetchProducts,
   }
 })

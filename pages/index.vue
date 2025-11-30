@@ -19,13 +19,25 @@
             .market__button
               p.text-weight-500 Зелье
 
-      UIButton(appearance="white").market__button
+      UIButton(
+        appearance="white" 
+        @click="handleTypeClick('egg')"
+        :class="{ 'active': productsStore.selectedTypes.includes('egg') }"
+      ).market__button
         p.text-weight-500 Яйцо
 
-      UIButton(appearance="white").market__button
+      UIButton(
+        appearance="white" 
+        @click="handleTypeClick('pet')"
+        :class="{ 'active': productsStore.selectedTypes.includes('pet') }"
+      ).market__button
         p.text-weight-500 Питомец
 
-      UIButton(appearance="white").market__button
+      UIButton(
+        appearance="white" 
+        @click="handleTypeClick('potion')"
+        :class="{ 'active': productsStore.selectedTypes.includes('potion') }"
+      ).market__button
         p.text-weight-500 Зелье
 
     .market__filters
@@ -87,6 +99,16 @@
               UIBadge(color="green").size-32.mt-4.ml-8.mb-4.mr8
                 UIIcon(name="sortDesc").size-24
               p.text-weight-500 Цена
+
+      // Отображение выбранных типов
+      UIButton(
+        v-for="type in selectedTypesDisplay"
+        :key="type.value"
+        appearance="white"
+        v-if="productsStore.selectedTypes.length > 0"
+      ).market__button
+        p.text-weight-500 {{ type.label }}
+        UIIcon(name="close").size-12.ml8(@click.stop="handleTypeRemove(type.value)")
 
     .market__list
       ProductCard(
@@ -227,6 +249,31 @@ const sortConfig = computed(() => {
 const handleSortChange = (sort: 'popularity' | 'price') => {
   productsStore.setSort(sort)
   isSortOpen.value = false
+}
+
+// Маппинг типов для отображения
+const typeLabels: Record<'egg' | 'pet' | 'potion', string> = {
+  egg: 'Яйцо',
+  pet: 'Питомец',
+  potion: 'Зелье',
+}
+
+// Отображение выбранных типов
+const selectedTypesDisplay = computed(() => {
+  return productsStore.selectedTypes.map(type => ({
+    value: type,
+    label: typeLabels[type],
+  }))
+})
+
+// Обработчик клика на тип
+const handleTypeClick = (type: 'egg' | 'pet' | 'potion') => {
+  productsStore.toggleType(type)
+}
+
+// Обработчик удаления типа
+const handleTypeRemove = (type: 'egg' | 'pet' | 'potion') => {
+  productsStore.removeType(type)
 }
 
 // Загрузка истории при монтировании
