@@ -33,7 +33,7 @@ import avaImage from '~/assets/images/ava.jpg'
   width: 100%;
   padding: 16px;
   border-radius: 8px;
-  background: var(--color-white);
+  background: #fff;
   gap: 14px;
   border: 2px solid #F6F6F6;
 
