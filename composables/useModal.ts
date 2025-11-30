@@ -1,16 +1,7 @@
 import { markRaw, ref } from 'vue'
+import type { ModalAnimationType, ModalItem } from '~/types/modal'
 
 let idCounter = 0
-
-export type ModalAnimationType = 'fade' | 'slide-bottom'
-
-type ModalItem = {
-  id: number
-  component: any
-  props?: Record<string, any>
-  animation?: ModalAnimationType
-  resolve: (data: any) => void
-}
 
 const modals = ref<ModalItem[]>([])
 

@@ -13,9 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue'
-
-type ComponentImport = Record<string, () => Promise<{ default: Component }>>
+import type { ComponentImport } from '~/types/component'
 
 const props = withDefaults(
   defineProps<{

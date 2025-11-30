@@ -1,18 +1,11 @@
+export * from './api'
 export * from './button'
+export * from './component'
 export * from './flag'
 export * from './input'
+export * from './modal'
 export * from './product'
 export * from './statTile'
 export * from './text'
-
-export interface ConnectorResponse {
-  user: any
-  stateVersion: string
-  stateVersionBefore: string
-  featureFlags?: any
-}
-
-export enum URLS {
-  INDEX = '/',
-  GAME = '/game',
-}
+export * from './urls'
+export * from './user'

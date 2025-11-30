@@ -1,22 +1,5 @@
 import type { Product } from '~/types/product'
-
-export interface User {
-  balance: number
-  login: string
-  language: string
-}
-
-export interface LoginRequest {
-  email: string
-  password: string
-  code2fa: string
-}
-
-export interface LoginResponse {
-  balance: number
-  login: string
-  language: string
-}
+import type { LoginRequest, LoginResponse, User } from '~/types/user'
 
 export const useAppStore = defineStore('appStore', () => {
   const user = ref<User | null>(null)
