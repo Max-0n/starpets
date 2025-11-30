@@ -1,42 +1,109 @@
-# Nuxt 3 
+# Starpets
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Nuxt 3 приложение для управления питомцами.
 
-## Setup
+## Архитектура проекта
 
-Make sure to install the dependencies:
+Проект использует методологию **Feature-Sliced Design (FSD)** для организации кода.
+
+📖 Подробнее о структуре проекта: [FSD_STRUCTURE.md](./FSD_STRUCTURE.md)
+
+## Требования
+
+- [Bun](https://bun.sh/) 1.3.3
+- Node.js >= 18 (если не используется Bun)
+
+## Быстрый старт
+
+### Локальная разработка
+
+1. Установите зависимости:
 
 ```bash
-# bun
 bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+2. Запустите dev-сервер:
 
 ```bash
-# bun
 bun run dev
 ```
 
-## Production
+Приложение будет доступно по адресу `http://localhost:3000`
 
-Build the application for production:
+### Разработка с Docker
+
+Для удобной разработки и тестирования можно использовать Docker:
+
+1. Запустите контейнер:
 
 ```bash
-# bun
+docker-compose up
+```
+
+2. Для запуска в фоновом режиме:
+
+```bash
+docker-compose up -d
+```
+
+3. Остановите контейнер:
+
+```bash
+docker-compose down
+```
+
+4. Пересоберите образ (после изменений в Dockerfile):
+
+```bash
+docker-compose up --build
+```
+
+Приложение будет доступно по адресу `http://localhost:3000`
+
+> **Примечание:** При использовании Docker, изменения в коде будут автоматически применяться благодаря volume-монтированию.
+
+## Доступные команды
+
+- `bun run dev` - запуск dev-сервера
+- `bun run build` - сборка приложения
+- `bun run generate` - генерация статического сайта
+- `bun run preview` - предпросмотр production-сборки
+- `bun run type-check` - проверка типов TypeScript
+- `bun run lint` - проверка кода линтером
+- `bun run lint-fix` - автоматическое исправление ошибок линтера
+
+## Production
+
+### Локальная сборка
+
+```bash
 bun run generate
 ```
 
-Locally preview production build:
+### Предпросмотр production-сборки
 
 ```bash
-# bun
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Docker для production
+
+Для сборки и запуска production-версии в Docker:
+
+1. Соберите production-образ:
+
+```bash
+docker build --target production -t starpets:production .
+```
+
+2. Запустите контейнер:
+
+```bash
+docker run -p 3000:3000 --env-file .env starpets:production
+```
+
+Подробнее о деплое: [Nuxt deployment documentation](https://nuxt.com/docs/getting-started/deployment)
 
 ## CDN
 
