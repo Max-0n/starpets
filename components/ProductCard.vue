@@ -14,6 +14,10 @@
         UIProperty(type="mega")
         UIProperty(type="fly")
         UIProperty(type="raid")
+
+    .product-card__buy
+      UIButton(appearance="primary" withoutPadding).size-28
+        UIIcon(name="cart").size-24
 </template>
 
 <script setup lang="ts">
@@ -22,6 +26,7 @@ import avaImage from '~/assets/images/ava.jpg'
 
 <style lang="scss" scoped>
 .product-card {
+  cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -72,6 +77,20 @@ import avaImage from '~/assets/images/ava.jpg'
       align-items: center;
       justify-content: center;
       width: 100%;
+    }
+  }
+
+  &__buy {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover {
+    .product-card__buy {
+      opacity: 1;
     }
   }
 }

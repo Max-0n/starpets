@@ -160,7 +160,7 @@ const searchQuery = ref('')
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 10px;
-    margin-bottom: 10px;
+    margin: 16px;
   }
 }
 </style>
