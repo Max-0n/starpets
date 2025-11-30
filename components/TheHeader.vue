@@ -20,7 +20,7 @@
       UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost)
         .header__cart
           .header__cart-info.text-color-black
-            p.text-weight-600 1 415.61 $
+            p.text-weight-600 {{ formattedBalance }}
             p.text-size-14 Ваш баланс
 
           UIButton(appearance="primary" withoutPadding).size-48
@@ -32,7 +32,7 @@
       UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost)
         .header__cart
           .header__cart-info.text-color-black
-            p.text-size-14.text-weight-600  StarPets LTD
+            p.text-size-14.text-weight-600 {{ userLogin }}
             p.text-size-14 Профиль
 
           UIAvatar(:image="avaImage").size-56
@@ -79,12 +79,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import avaImage from '~/assets/images/ava.jpg'
 
 const route = useRoute()
 const isActiveCart = ref(false)
 const { login, isAuthenticated, isLoading } = useAuth()
+const appStore = useAppStore()
 
 const isActive = (path: string) => {
   return route.path === path
@@ -95,6 +96,15 @@ const purchaseAmount = ref('0.00')
 const handleAuth = () => {
   login()
 }
+
+const formattedBalance = computed(() => {
+  if (!appStore.user?.balance) return '0.00 $'
+  return `${appStore.user.balance.toFixed(2)} $`
+})
+
+const userLogin = computed(() => {
+  return appStore.user?.login || 'StarPets LTD'
+})
 </script>
 
 <style lang="scss" scoped>
