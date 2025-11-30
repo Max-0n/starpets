@@ -29,13 +29,23 @@
         p Регистрация
         UIIcon(name="arrowFullRight").ml6.size-12
 
-      UIButton(appearance="secondary" withoutPadding).header__cart
-        UIButton(appearance="primary" withoutPadding).size-48
-          UIIcon(name="cart").size-24
+      UIButton(appearance="secondary" withoutPadding @click="isActiveCart = !isActiveCart").header__cart-button
+        .header__cart
+          UIButton(appearance="primary" withoutPadding).size-48
+            UIIcon(name="cart").size-24
+
+          .header__cart-info
+            p К покупке
+            p 0 $
+
+          UIIcon(name="arrowRight" :class="{ 'active': isActiveCart }").size-18.header__cart-arrow
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 const route = useRoute()
+const isActiveCart = ref(false)
 
 const isActive = (path: string) => {
   return route.path === path
@@ -84,12 +94,32 @@ header {
     }
 
     &__cart {
-      height: 100%;
-      padding: 0 16px;
-      border-radius: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 12px;
+
+      &-button {
+        height: 100%;
+        padding: 0 16px;
+        border-radius: 0;
+      }
+
+      &-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 4px;
+      }
+
+      &-arrow {
+        transition: transform 0.2s ease-in-out;
+        transform: rotate(90deg);
+        &.active {
+          transform: rotate(270deg);
+        }
+      }
     }
   }
 
