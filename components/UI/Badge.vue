@@ -6,7 +6,7 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    color?: 'orange' | 'blue' | 'red' | 'green'
+    color?: 'orange' | 'blue' | 'red' | 'green' | 'purple' | 'pink'
     size?: 'sm' | 'md'
   }>(),
   {
@@ -55,6 +55,16 @@ const props = withDefaults(
   &--red {
     background: var(--color-red-primary-light);
     color: var(--color-red-primary);
+  }
+
+  &--purple {
+    background: var(--color-purple-primary-light);
+    color: var(--color-purple-primary);
+  }
+
+  &--pink {
+    background: rgba(212, 16, 87, 0.1);
+    color: var(--color-pink-primary);
   }
 }
 </style>

@@ -6,10 +6,17 @@
     @click="appStore.closeAside"
     :class="{ 'aside-overlay--visible': appStore.isAsideOpen }"
   )
+  // Overlay для затемнения фона при открытом nav на разрешениях < 1024px
+  .nav-overlay(
+    v-if="shouldShowNavOverlay"
+    @click="appStore.closeNav"
+    :class="{ 'nav-overlay--visible': appStore.isNavOpen, 'nav-overlay--open': appStore.isNavOpen }"
+  )
 
   main
   
     TheAside(:is-open="appStore.isAsideOpen" @update:is-open="handleAsideUpdate" @close="appStore.closeAside" :class="{ 'aside-open': appStore.isAsideOpen }")
+    TheNav(:is-open="appStore.isNavOpen" @update:is-open="handleNavUpdate" @close="appStore.closeNav")
     NuxtPage
 
 
@@ -19,7 +26,7 @@
 
 <script setup lang="ts">
 const appStore = useAppStore()
-const { openAside, closeAside } = appStore
+const { openAside, closeAside, closeNav } = appStore
 
 const screenWidth = ref(0)
 
@@ -45,6 +52,11 @@ const shouldShowOverlay = computed(() => {
   return screenWidth.value > 0 && screenWidth.value < 1440
 })
 
+// Показывать overlay для nav только на разрешениях < 1024px
+const shouldShowNavOverlay = computed(() => {
+  return screenWidth.value > 0 && screenWidth.value < 1024
+})
+
 // Предотвращаем закрытие aside на больших экранах
 const handleAsideUpdate = (value: boolean) => {
   if (window.innerWidth >= 1440) {
@@ -55,6 +67,15 @@ const handleAsideUpdate = (value: boolean) => {
     } else {
       appStore.closeAside()
     }
+  }
+}
+
+// Обработчик для nav
+const handleNavUpdate = (value: boolean) => {
+  if (value) {
+    appStore.openNav()
+  } else {
+    appStore.closeNav()
   }
 }
 </script>
@@ -125,6 +146,44 @@ main {
 // Overlay показывается только на разрешениях < 1440px
 @media (min-width: 1440px) {
   .aside-overlay {
+    display: none;
+  }
+}
+
+// Overlay для nav
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  cursor: pointer;
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &--open {
+    z-index: 99;
+  }
+}
+
+// Overlay для nav показывается только на разрешениях < 1024px
+@media (min-width: 1024px) {
+  .nav-overlay {
+    display: none;
+  }
+}
+
+// Nav скрывается на разрешениях >= 1024px
+@media (min-width: 1024px) {
+  :deep(nav.nav) {
     display: none;
   }
 }

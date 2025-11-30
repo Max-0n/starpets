@@ -1,6 +1,9 @@
 <template lang="pug">
   header
     .header__left
+      UIButton(appearance="secondary" withoutPadding @click="handleNavToggle").size-32.ml8.header__menu-button
+        UIIcon(name="menu").size-24
+
       NuxtLink(to="/").logo
         UIIcon(name="logo").header__logo-full
         UIImage(:image="logoMiniImage").header__logo-mini
@@ -136,6 +139,10 @@ const handlePurchase = () => {
 const handleRemoveFromCart = (productId: string) => {
   removeFromCart(productId)
 }
+
+const handleNavToggle = () => {
+  appStore.toggleNav()
+}
 </script>
 
 <style lang="scss" scoped>
@@ -170,6 +177,15 @@ header {
 
     &__left {
       gap: 80px;
+      @media (max-width: 1023px) {
+        gap: 0px;
+      }
+    }
+
+    &__menu-button {
+      @media (min-width: 1024px) {
+        display: none;
+      }
     }
     &__right {
       gap: 24px;

@@ -7,6 +7,7 @@ export const useAppStore = defineStore('appStore', () => {
   const error = ref<string | null>(null)
   const cart = ref<Product[]>([])
   const isAsideOpen = ref(false)
+  const isNavOpen = ref(false)
 
   const setUser = (userData: User) => {
     user.value = userData
@@ -106,6 +107,22 @@ export const useAppStore = defineStore('appStore', () => {
     }
   }
 
+  const openNav = () => {
+    isNavOpen.value = true
+  }
+
+  const closeNav = () => {
+    isNavOpen.value = false
+  }
+
+  const toggleNav = () => {
+    if (isNavOpen.value) {
+      closeNav()
+    } else {
+      openNav()
+    }
+  }
+
   return {
     user,
     isLoading,
@@ -114,6 +131,7 @@ export const useAppStore = defineStore('appStore', () => {
     cart,
     cartTotal,
     isAsideOpen,
+    isNavOpen,
     setUser,
     clearUser,
     login,
@@ -124,5 +142,8 @@ export const useAppStore = defineStore('appStore', () => {
     openAside,
     closeAside,
     toggleAside,
+    openNav,
+    closeNav,
+    toggleNav,
   }
 })
