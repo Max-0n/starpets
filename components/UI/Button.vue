@@ -104,6 +104,27 @@ button {
     }
   }
 
+  // White appearance
+  &[appearance="white"] {
+    background: #fff;
+    color: #b5b5b5;
+    border: 2px solid #F6F6F6;
+    
+    &:hover:not([disabled]) {
+      background: #F6F6F6;
+    }
+
+    &:active:not([disabled]),
+    &.active:not([disabled]) {
+      background: #F6F6F6;
+    }
+
+    &[disabled] {
+      background: #fff;
+      opacity: 0.6;
+    }
+  }
+
   // Size variants
   &.size-default {
     padding: 12px 24px;
@@ -123,7 +144,6 @@ button {
     align-items: center;
     justify-content: center;
     width: 100%;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }

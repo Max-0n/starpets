@@ -3,6 +3,7 @@
     :class="{ [`size-${size}`]: size, [`contrast-${contrast}`]: contrast, disabled }"
     :for="inputId"
   )
+    UIIcon(name="search").icon-search.size-18
     input.input(
       :id="inputId"
       :type="type"
@@ -12,7 +13,7 @@
       :required="required"
       :readonly="readonly"
       :autocomplete="autocomplete"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      @input="$emit('update:modelValue', $event.target.value)"
       @focus="$emit('focus', $event)"
       @blur="$emit('blur', $event)"
     )
@@ -66,11 +67,20 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
   display: flex;
   align-items: center;
   width: 100%;
-  background: var(--color-main-dark);
-  border-radius: var(--border-radius);
-  border: 1px solid var(--color-main-light);
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #F6F6F6;
   transition: all ease-in-out 0.15s;
   cursor: text;
+
+  .icon-search {
+    position: absolute;
+    top: 0;
+    left: 12px;
+    bottom: 0;
+    margin: auto 0;
+    color: #646464;
+  }
 
   &.disabled {
     opacity: 0.6;
@@ -80,39 +90,12 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
 
   // Size variants
   &.size-default {
-    padding: 12px 16px;
+    padding: 4px 16px 4px 40px;
     min-height: 48px;
 
     .input {
       font-size: 16px;
     }
-  }
-
-  &.size-xl {
-    padding: 16px 20px;
-    min-height: 56px;
-    border-radius: 12px;
-
-    .input {
-      font-size: 18px;
-      font-weight: 500;
-    }
-  }
-
-  // Contrast variants
-  &.contrast-default {
-    background: var(--color-main-dark);
-    border-color: var(--color-main-light);
-  }
-
-  &.contrast-contrast {
-    background: var(--color-grey2);
-    border-color: var(--color-grey-light);
-  }
-
-  &:focus-within {
-    border-color: var(--color-main);
-    box-shadow: 0 0 0 2px rgba(var(--color-main), 0.2);
   }
 }
 
@@ -122,13 +105,13 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
   background: transparent;
   border: none;
   outline: none;
-  color: var(--color-white);
+  color: #000;
   font-weight: 500;
   line-height: 1.5;
   padding: 0;
 
   &::placeholder {
-    color: var(--color-white-03);
+    color: #646464;
     opacity: 1;
   }
 

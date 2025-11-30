@@ -7,4 +7,5 @@ export enum ButtonAppearance {
   blue = 'blue',
   orange = 'orange',
   yellow = 'yellow',
+  white = 'white',
 }

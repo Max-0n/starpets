@@ -15,10 +15,10 @@
 }
 
 // Использование миксина для нужных размеров
-@include marginSpacing('mt', -3, 10, 12, 24, 32, 40, 64);
-@include marginSpacing('mb', -3, 10, 12, 24, 32, 40, 64);
-@include marginSpacing('ml', 2, 4, 6, 8);
-@include marginSpacing('mr', 2, 4, 6, 8);
+@include marginSpacing('mt', -4, -3, 4, 10, 12, 24, 32, 40, 64);
+@include marginSpacing('mb', -4, -3, 4, 10, 12, 24, 32, 40, 64);
+@include marginSpacing('ml', -14, -8, -4, 2, 4, 6, 8);
+@include marginSpacing('mr', -4, 2, 4, 6, 8);
 
 
 @mixin paddingSpacing($property, $sizes...) {
