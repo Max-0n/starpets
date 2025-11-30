@@ -4,20 +4,20 @@
       NuxtLink(to="/").logo
         UIIcon(name="logo")
 
-      //- .header__tabs.text-size-18.text-weight-500
-      //-   NuxtLink(to="/").nav-link
-      //-     p Маркет
-      //-   NuxtLink(to="/products").nav-link
-      //-     p Предметы
-      //-   NuxtLink(to="/sale").nav-link
-      //-     p Продажа
-      //-   NuxtLink(to="/currency").nav-link
-      //-     p R$
-      //-   NuxtLink(to="/help").nav-link
-      //-     p Помощь
+      .header__tabs.text-size-18.text-weight-500
+        NuxtLink(to="/").nav-link
+          p Маркет
+        NuxtLink(to="/products").nav-link
+          p Предметы
+        NuxtLink(to="/sale").nav-link
+          p Продажа
+        NuxtLink(to="/currency").nav-link
+          p R$
+        NuxtLink(to="/help").nav-link
+          p Помощь
 
     .header__right
-      UIButton(appearance="secondary" withoutPadding ghost)
+      UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost)
         .header__cart
           .header__cart-info.text-color-black
             p.text-weight-600 1 415.61 $
@@ -29,22 +29,22 @@
       UIButton(appearance="secondary" withoutPadding).size-48
         UIFlag(code="ru").size-24
 
-      UIButton(appearance="secondary" withoutPadding ghost)
+      UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost)
         .header__cart
           .header__cart-info.text-color-black
             p.text-size-14.text-weight-600  StarPets LTD
             p.text-size-14 Профиль
 
           UIAvatar(:image="avaImage").size-56
-
-      UIButton(appearance="secondary" withoutPadding).size-48
-        p $
     
-      UIButton(appearance="secondary")
-        p Вход
-      UIButton(appearance="primary")
-        p Регистрация
-        UIIcon(name="arrowFullRight").ml6.size-12
+      template(v-if="!isAuthenticated")
+        UIButton(appearance="secondary" withoutPadding).size-48
+          p $
+        UIButton(appearance="secondary" @click="handleAuth" :progress="isLoading")
+          p Вход
+        UIButton(appearance="primary" @click="handleAuth" :progress="isLoading")
+          p Регистрация
+          UIIcon(name="arrowFullRight").ml6.size-12
 
       UIButton(appearance="secondary" withoutPadding @click="isActiveCart = !isActiveCart").header__cart-button
         .header__cart
@@ -84,6 +84,7 @@ import avaImage from '~/assets/images/ava.jpg'
 
 const route = useRoute()
 const isActiveCart = ref(false)
+const { login, isAuthenticated, isLoading } = useAuth()
 
 const isActive = (path: string) => {
   return route.path === path
@@ -91,12 +92,8 @@ const isActive = (path: string) => {
 
 const purchaseAmount = ref('0.00')
 
-const handleLogin = () => {
-  // TODO: Implement login logic
-}
-
-const handleRegistration = () => {
-  // TODO: Implement registration logic
+const handleAuth = () => {
+  login()
 }
 </script>
 
