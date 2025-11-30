@@ -136,16 +136,22 @@ aside {
   background: var(--color-white);
   display: flex;
   flex-direction: column;
-  z-index: 1000;
+  overflow: auto;
+  z-index: 100;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .aside__header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
   border-bottom: 1px solid #F6F6F6;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
 
   &-actions {
     display: flex;
@@ -155,8 +161,6 @@ aside {
 }
 
 .aside__content {
-  flex: 1;
-  overflow-y: auto;
   padding: 24px;
 }
 
@@ -390,7 +394,6 @@ aside {
 
 .aside__footer {
   padding: 20px 24px;
-  border-top: 1px solid #F6F6F6;
   text-align: center;
 }
 
