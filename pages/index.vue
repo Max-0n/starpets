@@ -58,33 +58,35 @@
 
       .market__filter-button
         UIButton(appearance="white" @click="isSortOpen = !isSortOpen")
-          UIBadge(color="blue").size-32.mt-8.ml-14.mb-8.mr8
-            UIIcon(name="star").size-24
-          p.text-weight-500 Популярность
+          UIBadge(:color="sortConfig.badgeColor").size-32.mt-8.ml-14.mb-8.mr8
+            UIIcon(:name="sortConfig.icon").size-24
+          p.text-weight-500 {{ sortConfig.label }}
           UIIcon(name="arrowRight" :class="{ 'active': isSortOpen }").ml6.size-18.market__arrow
 
         .market__dropdown(v-show="isSortOpen")
-          UIButton(appearance="secondary" wide ghost)
+          UIButton(
+            appearance="secondary" 
+            wide 
+            ghost 
+            :disabled="productsStore.selectedSort === 'popularity'"
+            @click="handleSortChange('popularity')"
+          )
             .market__button
-              UIBadge(color="orange").size-32.mt-4.ml-8.mb-4.mr8
-                UIIcon(name="tag").size-24
-              p.text-weight-500 Выгода
+              UIBadge(color="blue").size-32.mt-4.ml-8.mb-4.mr8
+                UIIcon(name="star").size-24
+              p.text-weight-500 Популярность
 
-          UIButton(appearance="secondary" wide ghost)
+          UIButton(
+            appearance="secondary" 
+            wide 
+            ghost 
+            :disabled="productsStore.selectedSort === 'price'"
+            @click="handleSortChange('price')"
+          )
             .market__button
               UIBadge(color="green").size-32.mt-4.ml-8.mb-4.mr8
-                UIIcon(name="sortAsc").size-24
-              p.text-weight-500 Цена
-
-          UIButton(appearance="secondary" wide ghost)
-            .market__button
-              UIBadge(color="red").size-32.mt-4.ml-8.mb-4.mr8
                 UIIcon(name="sortDesc").size-24
               p.text-weight-500 Цена
-
-      UIButton(appearance="white")
-        p.text-weight-500 Цена
-        UIIcon(name="close").size-12.ml8
 
     .market__list
       ProductCard(
@@ -203,6 +205,29 @@ const handleSearchEnter = () => {
 
 // Дебаунс для поискового запроса
 const debouncedSearchQuery = useDebounce(searchQuery, 300)
+
+// Конфигурация для отображения текущей сортировки
+const sortConfig = computed(() => {
+  if (productsStore.selectedSort === 'popularity') {
+    return {
+      label: 'Популярность',
+      icon: 'star',
+      badgeColor: 'blue',
+    }
+  } else {
+    return {
+      label: 'Цена',
+      icon: 'sortDesc',
+      badgeColor: 'green',
+    }
+  }
+})
+
+// Обработчик изменения сортировки
+const handleSortChange = (sort: 'popularity' | 'price') => {
+  productsStore.setSort(sort)
+  isSortOpen.value = false
+}
 
 // Загрузка истории при монтировании
 onMounted(() => {

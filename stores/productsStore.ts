@@ -30,6 +30,7 @@ export const useProductsStore = defineStore('productsStore', () => {
   // Фильтры
   const selectedRarityIndices = ref<number[]>([])
   const selectedProperties = ref<string[]>([])
+  const selectedSort = ref<'popularity' | 'price'>('popularity')
 
   const selectedRarities = computed<ProductRarity[]>(() => {
     const rarityColors = ['blue', 'purple', 'green', 'red', 'grey']
@@ -127,6 +128,12 @@ export const useProductsStore = defineStore('productsStore', () => {
     fetchProducts()
   }
 
+  // Метод для установки сортировки
+  const setSort = (sort: 'popularity' | 'price') => {
+    selectedSort.value = sort
+    fetchProducts()
+  }
+
   // Параметры запроса по умолчанию
   const getRequestParams = (): FetchProductsRequest => {
     const baseTypes = [
@@ -165,7 +172,7 @@ export const useProductsStore = defineStore('productsStore', () => {
       page: currentPage.value,
       amount: 72,
       currency: 'usd',
-      sort: { price: 'desc' },
+      sort: { [selectedSort.value]: 'desc' },
     }
   }
 
@@ -216,6 +223,7 @@ export const useProductsStore = defineStore('productsStore', () => {
     selectedRarityIndices,
     selectedRarities,
     selectedProperties,
+    selectedSort,
     setProducts,
     addProducts,
     clearProducts,
@@ -228,6 +236,7 @@ export const useProductsStore = defineStore('productsStore', () => {
     clearRarities,
     toggleProperty,
     clearProperties,
+    setSort,
     fetchProducts,
   }
 })
