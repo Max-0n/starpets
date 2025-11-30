@@ -1,27 +1,56 @@
 <template lang="pug">
-  .product-card
-    UIImage(:image="avaImage").size-78
+  .product-card(@click="handleClick")
+    UIImage(:image="product.imageUri").size-78.mb10
 
     .product-card__info.mt4
-      p.text-weight-400.text-size-14 Subtitle
-      p.text-weight-600.text-color-black Title
-      p.text-weight-700.text-color-black 999,99 $
+      p.product-card__subtitle.text-weight-400.text-size-14 {{ formattedType }}
+      p.product-card__name.text-weight-600.text-color-black {{ product.name }}
+      p.text-weight-700.text-color-black {{ formattedPrice }}
 
     .product-card__properties__wrapper
       .product-card__properties
-        UIProperty(type="regular")
-        UIProperty(type="neon")
-        UIProperty(type="mega")
-        UIProperty(type="fly")
-        UIProperty(type="raid")
+        UIProperty(v-if="product.level === 'default' || !product.level" type="regular")
+        UIProperty(v-if="product.level === 'neon'" type="neon")
+        UIProperty(v-if="product.level === 'mega_neon'" type="mega")
+        UIProperty(v-if="product.flyable" type="fly")
+        UIProperty(v-if="product.rideable" type="raid")
 
     .product-card__buy
-      UIButton(appearance="primary" withoutPadding).size-28
+      UIButton(appearance="primary" withoutPadding @click.stop="handleAddToCart").size-28
         UIIcon(name="cartPlus").size-18
 </template>
 
 <script setup lang="ts">
-import avaImage from '~/assets/images/ava.jpg'
+import { computed } from 'vue'
+import type { Product } from '~/types/product'
+
+const props = defineProps<{
+  product: Product
+}>()
+
+const emit = defineEmits<{
+  addToCart: [product: Product]
+}>()
+
+const formattedType = computed(() => {
+  const type = props.product.type || ''
+  return type.charAt(0).toUpperCase() + type.slice(1)
+})
+
+const formattedPrice = computed(() => {
+  const price = props.product.price || 0
+  const currency = props.product.currency || 'usd'
+  const symbol = currency === 'usd' ? '$' : currency.toUpperCase()
+  return `${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${symbol}`
+})
+
+const handleClick = () => {
+  // Можно добавить логику для открытия детальной страницы
+}
+
+const handleAddToCart = () => {
+  emit('addToCart', props.product)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -59,7 +88,15 @@ import avaImage from '~/assets/images/ava.jpg'
     justify-content: center;
     gap: 4px;
     color: #646464;
-    text-align: center;
+    text-align: left;
+  }
+
+  &__subtitle,
+  &__name {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__properties {

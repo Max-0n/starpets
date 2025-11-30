@@ -1,6 +1,7 @@
 export * from './button'
 export * from './flag'
 export * from './input'
+export * from './product'
 export * from './statTile'
 export * from './text'
 

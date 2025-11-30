@@ -66,17 +66,48 @@
         UIIcon(name="close").size-12.ml8
 
     .market__list
-      ProductCard(v-for="item in 12" :key="item")
+      ProductCard(
+        v-for="product in productsStore.products"
+        :key="product.id"
+        :product="product"
+        @add-to-cart="handleAddToCart"
+      )
+      .market__loading(v-if="productsQuery.isLoading.value")
+        p Загрузка...
+      .market__error(v-if="productsQuery.isError.value")
+        p Ошибка загрузки продуктов
 
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import type { FetchProductsRequest, Product } from '~/types/product'
 
 const appStore = useAppStore()
+const productsStore = useProductsStore()
 const isTransportOpen = ref(false)
 const isSortOpen = ref(false)
 const searchQuery = ref('')
+
+// Параметры запроса по умолчанию
+const requestParams = computed<FetchProductsRequest>(() => ({
+  filter: {
+    types: [{ type: 'transport' }, { type: 'pet' }, { type: 'egg' }, { type: 'potion' }],
+  },
+  page: 1,
+  amount: 72,
+  currency: 'usd',
+  sort: { price: 'desc' },
+}))
+
+// Запрос продуктов через TanStack Query
+const productsQuery = useProducts(requestParams)
+
+// Обработчик добавления в корзину
+const handleAddToCart = (product: Product) => {
+  // TODO: Реализовать добавление в корзину
+  console.log('Add to cart:', product)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -161,6 +192,18 @@ const searchQuery = ref('')
     align-items: flex-start;
     gap: 10px;
     margin: 16px;
+  }
+
+  &__loading,
+  &__error {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: #646464;
+  }
+
+  &__error {
+    color: #ff0000;
   }
 }
 </style>
