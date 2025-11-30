@@ -2,9 +2,12 @@
   .products-total-purchases(:class="{ 'wide': wide }")
     UIIcon(name="totalPurchases").products-total-purchases__icon
     .products-total-purchases__content
-      p.products-total-purchases__title Сделок за все время
-      p.products-total-purchases__transactions.text-weight-700.text-size-18 {{ formattedTransactions }}
-      p.products-total-purchases__online-users.text-weight-500.text-size-14 {{ formattedOnlineUsers }} в сети
+      p.products-total-purchases__title(v-if="wide") Сделок за все время
+      p.products-total-purchases__transactions.text-weight-700.text-size-18(:class="{ 'mb24': wide }") {{ formattedTransactions }}
+      p.products-total-purchases__online-users.text-weight-500.text-size-10.mb10(v-if="!wide") Сделок за все время
+      p.products-total-purchases__title.text-weight-500.text-size-14.products-total-purchases_indicator {{ formattedOnlineUsers }} {{ wide ? 'в сети' : '' }}
+      p.products-total-purchases__online-users.text-weight-500.text-size-10(v-if="!wide") Пользователей в сети
+
 </template>
 
 <script setup lang="ts">
@@ -75,13 +78,19 @@ const formattedOnlineUsers = computed(() => {
   &__transactions {
     color: var(--color-text-black);
     margin-bottom: 6px;
+    &.mb24 {
+      margin-bottom: 24px;
+    }
   }
   
   &__online-users {
-    position: relative;
     color: var(--color-grey-medium);
     max-width: 100%;
     margin-top: 10px;
+  }
+
+  &_indicator {
+    position: relative;
 
     &::before {
         content: '';
@@ -100,6 +109,25 @@ const formattedOnlineUsers = computed(() => {
   }
   
 
+  &:not(.wide) {
+    padding-left: 10px;
+    .products-total-purchases__icon {
+      transform: rotate(190deg) scale(0.4) translate(-120px, 150px);
+    }
+    .products-total-purchases__content {
+      right: auto;
+      left: 10px;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .products-total-purchases_indicator {
+      margin-left: 16px;
+    }
+
+    .products-total-purchases__online-users {
+        margin-top: 0;
+    }
+  }
 }
 </style>
 

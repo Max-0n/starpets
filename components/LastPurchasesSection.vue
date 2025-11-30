@@ -1,7 +1,7 @@
 <template lang="pug">
   .last-purchases-section
     .last-purchases-section__left
-      ProductsTotalPurchases(wide :transactionsCount="purchasesCount" :onlineUsersCount="3415")
+      ProductsTotalPurchases(:wide="isWide" :transactionsCount="purchasesCount" :onlineUsersCount="3415")
     .last-purchases-section__right
       .last-purchases-section__scroll
         ProductPurchased(
@@ -17,8 +17,10 @@ import type { Product } from '~/types/product'
 
 const STORAGE_KEY = 'last-purchases'
 const purchases = ref<Product[]>([])
+const windowWidth = ref(0)
 
 const purchasesCount = computed(() => purchases.value.length + 4513613)
+const isWide = computed(() => windowWidth.value >= 1440)
 
 const loadPurchases = () => {
   if (process.client) {
@@ -44,13 +46,21 @@ const handlePurchaseCompleted = () => {
   loadPurchases()
 }
 
+const updateWindowWidth = () => {
+  if (process.client) {
+    windowWidth.value = window.innerWidth
+  }
+}
+
 // Загружаем покупки при монтировании
 onMounted(() => {
   loadPurchases()
+  updateWindowWidth()
 
   // Слушаем изменения в localStorage (на случай если покупка произошла в другой вкладке)
   if (process.client) {
     window.addEventListener('storage', handleStorageChange)
+    window.addEventListener('resize', updateWindowWidth)
 
     // Также слушаем события на текущей вкладке через кастомное событие
     window.addEventListener('purchase-completed', handlePurchaseCompleted)
@@ -61,6 +71,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (process.client) {
     window.removeEventListener('storage', handleStorageChange)
+    window.removeEventListener('resize', updateWindowWidth)
     window.removeEventListener('purchase-completed', handlePurchaseCompleted)
   }
 })
