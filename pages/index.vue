@@ -1,5 +1,7 @@
 <template lang="pug">
   .market
+    ProductPurchased(v-if="productsStore.products.length > 0" :product="productsStore.products[0]")
+
     MarketTypeFilters
 
     .market__filters
