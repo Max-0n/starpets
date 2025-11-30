@@ -111,12 +111,14 @@
         UIIcon(name="close").size-12.ml8(@click.stop="handleTypeRemove(type.value)")
 
     .market__list
-      ProductCard(
+      UIButton(
         v-for="product in productsStore.products"
         :key="product.id"
-        :product="product"
-        @add-to-cart="handleAddToCart"
+        ghost
+        withoutPadding
+        @click="handleProductClick(product)"
       )
+        ProductCard(:product="product")
       .market__loading(v-if="productsStore.isLoading")
         p Загрузка...
       .market__error(v-if="productsStore.error")
@@ -285,6 +287,11 @@ onMounted(() => {
 
 // Обработчик добавления в корзину
 const handleAddToCart = (product: Product) => {
+  appStore.addToCart(product)
+}
+
+// Обработчик клика на продукт
+const handleProductClick = (product: Product) => {
   appStore.addToCart(product)
 }
 </script>
