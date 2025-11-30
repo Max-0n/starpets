@@ -64,8 +64,6 @@
       UIButton(appearance="white")
         p.text-weight-500 Цена
         UIIcon(name="close").size-12.ml8
-
-
 </template>
 
 <script lang="ts" setup>
