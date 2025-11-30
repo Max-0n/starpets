@@ -1,4 +1,5 @@
 export * from './button'
+export * from './input'
 export * from './statTile'
 export * from './text'
 

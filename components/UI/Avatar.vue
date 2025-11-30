@@ -20,7 +20,6 @@ defineProps<{ image?: string }>()
   min-width: 10px;
   overflow: hidden;
   color: var(--color-main);
-  box-shadow: var(--box-shadow);
 
   &-error {
     color: var(--color-error);
