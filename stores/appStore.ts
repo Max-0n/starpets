@@ -81,6 +81,29 @@ export const useAppStore = defineStore('appStore', () => {
     }
 
     user.value.balance -= total
+
+    // Сохраняем покупки в localStorage
+    if (process.client && cart.value.length > 0) {
+      const STORAGE_KEY = 'last-purchases'
+      try {
+        const existingPurchases = localStorage.getItem(STORAGE_KEY)
+        const purchases: Product[] = existingPurchases ? JSON.parse(existingPurchases) : []
+
+        // Добавляем новые покупки в начало массива
+        const newPurchases = [...cart.value, ...purchases]
+
+        // Ограничиваем количество (например, последние 50)
+        const limitedPurchases = newPurchases.slice(0, 50)
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(limitedPurchases))
+
+        // Отправляем кастомное событие для обновления компонента на текущей вкладке
+        window.dispatchEvent(new Event('purchase-completed'))
+      } catch (error) {
+        console.error('Error saving purchases to localStorage:', error)
+      }
+    }
+
     clearCart()
     return true
   }
