@@ -56,6 +56,24 @@
             p.text-weight-700 0 $
 
           UIIcon(name="arrowRight" :class="{ 'active': isActiveCart }").size-18.header__cart-arrow
+
+      .header__cart-dropdown(v-show="isActiveCart")
+        .header__cart-dropdown__row
+          UIBadge(color="orange" size="md")
+            UIIcon(name="cartBag").size-32
+          p.text-size-18.text-weight-500 3 предмета в корзине
+
+        .header__cart-dropdown__total.mt10
+          p.text-weight-500 Сумма покупки
+          p.text-weight-700.text-color-black 2 999.97 $
+
+        UIButton(appearance="primary" wide).mt10
+          UIIcon(name="cart").size-24
+          p Купить
+
+
+        UIButton(appearance="secondary" wide).mt10
+          p Очистить корзину
 </template>
 
 <script setup lang="ts">
@@ -121,6 +139,37 @@ header {
         height: 100%;
         padding: 0 16px;
         border-radius: 0;
+      }
+
+      &-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 10px;
+        width: 450px;
+        max-height: 570px;
+        padding: 14px;
+        background: var(--color-white);
+        border-radius: 8px;
+        box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.03);
+
+        &__row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 8px;
+        }
+
+        &__total {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          gap: 4px;
+          padding: 14px;
+          border-radius: 8px;
+          color: #B5B5B5;
+          background-color: #FAFAFA;
+        }
       }
 
       &-info {
