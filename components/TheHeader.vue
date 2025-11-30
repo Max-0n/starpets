@@ -18,7 +18,7 @@
           p Помощь
 
     .header__right
-      UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost)
+      UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost).header__balance-button
         .header__cart
           .header__cart-info.text-color-black
             p.text-weight-600 {{ formattedBalance }}
@@ -30,7 +30,7 @@
       UIButton(appearance="secondary" withoutPadding).size-48
         UIFlag(code="ru").size-24
 
-      UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost)
+      UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost).header__balance-button
         .header__cart
           .header__cart-info.text-color-black.header__cart-info--profile
             p.text-size-14.text-weight-600 {{ userLogin }}
@@ -173,6 +173,12 @@ header {
     }
     &__right {
       gap: 24px;
+    }
+
+    &__balance-button {
+      @media (max-width: 743px) {
+        display: none;
+      }
     }
 
     &__cart {
