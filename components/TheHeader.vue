@@ -162,6 +162,12 @@ header {
       height: 100%;
     }
 
+    &__tabs {
+      @media (max-width: 1439px) {
+        display: none;
+      }
+    }
+
     &__left {
       gap: 80px;
     }
