@@ -252,6 +252,24 @@ aside {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -60%) rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+  }
 
   &::after {
     content: '';
@@ -265,10 +283,19 @@ aside {
     transition: transform 0.3s ease-in-out;
   }
 
-  &:hover,
+  &:hover {
+    &::after {
+      transform: translateY(6px);
+    }
+  }
+
   &.active {
     &::after {
       transform: translateY(0);
+    }
+
+    &::before {
+      opacity: 1;
     }
   }
 
