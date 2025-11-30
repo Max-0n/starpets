@@ -5,7 +5,7 @@ aside
     .aside__header-actions
       UIButton(appearance="secondary" ghost withoutPadding @click="resetFilters")
         p.text-size-14 Сбросить
-      UIButton(appearance="secondary" ghost withoutPadding @click="close")
+      UIButton(appearance="secondary" ghost withoutPadding @click="close").aside__close-button
         UIIcon(name="close").size-18
   
   .aside__content
@@ -28,6 +28,13 @@ aside
             type="number"
             placeholder="∞"
           )
+
+    .aside__section.aside__section--market-filters
+      .aside__section-header(@click="isMarketTypeOpen = !isMarketTypeOpen")
+        p.aside__section-title.text-size-16.text-weight-500 Тип предмета
+        UIIcon(name="arrowRight" :class="{ 'active': isMarketTypeOpen }").size-18.aside__arrow
+      .aside__section-content(v-show="isMarketTypeOpen")
+        MarketTypeFilters
 
     .aside__section
       .aside__section-header(@click="isRarityOpen = !isRarityOpen")
@@ -78,6 +85,7 @@ const productsStore = useProductsStore()
 const { selectedRarityIndices, toggleRarity, clearRarities, selectedProperties, toggleProperty, clearProperties } =
   productsStore
 
+const isMarketTypeOpen = ref(true)
 const isRarityOpen = ref(true)
 const isPropertiesOpen = ref(true)
 const priceMin = ref('0.00')
@@ -145,6 +153,12 @@ aside {
   }
 }
 
+.aside__close-button {
+  @media (min-width: 1440px) {
+    display: none;
+  }
+}
+
 .aside__content {
   padding: 24px;
 }
@@ -154,6 +168,12 @@ aside {
 
   &:last-child {
     margin-bottom: 0;
+  }
+
+  &--market-filters {
+    @media (min-width: 744px) {
+      display: none !important;
+    }
   }
 }
 
@@ -171,6 +191,11 @@ aside {
 
 .aside__section-content {
   margin-top: 16px;
+
+  & > :deep(.market__filters) {
+    margin: 0;
+    flex-wrap: wrap;
+  }
 }
 
 .aside__arrow {

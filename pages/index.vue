@@ -1,47 +1,9 @@
 <template lang="pug">
   .market
-    .market__filters
-      .market__filter-button
-        UIButton(appearance="white" @click="isTransportOpen = !isTransportOpen").market__button
-          p.text-weight-500 Транспорт
-          UIIcon(name="arrowRight" :class="{ 'active': isTransportOpen }").ml6.size-18.market__arrow
-
-        .market__dropdown(v-show="isTransportOpen")
-          UIButton(appearance="secondary" ghost)
-            .market__button
-              p.text-weight-500 Яйцо
-
-          UIButton(appearance="secondary" ghost)
-            .market__button
-              p.text-weight-500 Питомец
-
-          UIButton(appearance="secondary" ghost)
-            .market__button
-              p.text-weight-500 Зелье
-
-      UIButton(
-        appearance="white" 
-        @click="handleTypeClick('egg')"
-        :class="{ 'active': productsStore.selectedTypes.includes('egg') }"
-      ).market__button
-        p.text-weight-500 Яйцо
-
-      UIButton(
-        appearance="white" 
-        @click="handleTypeClick('pet')"
-        :class="{ 'active': productsStore.selectedTypes.includes('pet') }"
-      ).market__button
-        p.text-weight-500 Питомец
-
-      UIButton(
-        appearance="white" 
-        @click="handleTypeClick('potion')"
-        :class="{ 'active': productsStore.selectedTypes.includes('potion') }"
-      ).market__button
-        p.text-weight-500 Зелье
+    MarketTypeFilters
 
     .market__filters
-      UIButton(appearance="white" withoutPadding @click="appStore.openAside").size-46
+      UIButton(appearance="white" withoutPadding @click="appStore.openAside").size-46.market__filters-button
         UIIcon(name="filters").size-24
 
       .market__search
@@ -132,7 +94,6 @@ import type { Product } from '~/types/product'
 
 const appStore = useAppStore()
 const productsStore = useProductsStore()
-const isTransportOpen = ref(false)
 const isSortOpen = ref(false)
 const searchQuery = ref('')
 const isSearchHistoryOpen = ref(false)
@@ -267,11 +228,6 @@ const selectedTypesDisplay = computed(() => {
     label: typeLabels[type],
   }))
 })
-
-// Обработчик клика на тип
-const handleTypeClick = (type: 'egg' | 'pet' | 'potion') => {
-  productsStore.toggleType(type)
-}
 
 // Обработчик удаления типа
 const handleTypeRemove = (type: 'egg' | 'pet' | 'potion') => {
@@ -409,6 +365,12 @@ const handleProductClick = (product: Product) => {
 
     & > .size-46 {
       flex: 0 0 auto;
+    }
+
+    &-button {
+      @media (min-width: 1440px) {
+        display: none;
+      }
     }
   }
 
