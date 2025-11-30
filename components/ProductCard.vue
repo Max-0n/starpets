@@ -17,7 +17,7 @@
 
     .product-card__buy
       UIButton(appearance="primary" withoutPadding).size-28
-        UIIcon(name="cart").size-24
+        UIIcon(name="cartPlus").size-18
 </template>
 
 <script setup lang="ts">
