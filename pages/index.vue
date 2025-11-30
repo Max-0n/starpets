@@ -8,6 +8,17 @@
             UIIcon(name="arrowRight" :class="{ 'active': isActiveCart }").size-18.market__arrow
 
         .market__dropdown(v-show="isActiveCart")
+          UIButton(appearance="secondary" wide ghost)
+            .market__button
+              p.text-weight-500 Яйцо
+
+          UIButton(appearance="secondary" wide ghost)
+            .market__button
+              p.text-weight-500 Питомец
+
+          UIButton(appearance="secondary" wide ghost)
+            .market__button
+              p.text-weight-500 Зелье
 
       UIButton(appearance="secondary" withoutPadding).market__button
         .market__button__inner
@@ -20,6 +31,9 @@
       UIButton(appearance="secondary" withoutPadding).market__button
         .market__button__inner
           p.text-weight-500 Зелье
+
+    .market__filters
+      //- UIInput
 
 
 </template>
@@ -47,9 +61,15 @@ const isActiveCart = ref(false)
 
   &__button {
     height: 100%;
-    padding: 0 16px;
-    border-radius: 0;
-    
+    width: 100%;
+    border-radius: 4px;
+    background: #fff;
+    text-align: left;
+    padding: 8px 14px;
+
+    &:hover {
+      background: #F6F6F6;
+    }
 
     &__inner {
       display: flex;
@@ -68,7 +88,7 @@ const isActiveCart = ref(false)
       top: calc(100% + 2px);
       left: 0;
       max-height: 570px;
-      padding: 14px;
+      padding: 4px;
       background: var(--color-white);
       border-radius: 8px;
       box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.03);
