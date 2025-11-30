@@ -7,7 +7,7 @@
       p.text-weight-600.text-color-black {{ product.name }}
       p.text-weight-700.text-color-black {{ formattedPrice }}
 
-    .product-card-wide__properties__wrapper
+    .product-card-wide__properties__wrapper(v-show="hasProperties")
       .product-card-wide__properties
         UIProperty(v-if="product.level === 'neon'" type="neon")
         UIProperty(v-if="product.level === 'mega_neon'" type="mega")
@@ -47,6 +47,15 @@ const formattedPrice = computed(() => {
   return `${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${symbol}`
 })
 
+const hasProperties = computed(() => {
+  return (
+    props.product.level === 'neon' ||
+    props.product.level === 'mega_neon' ||
+    props.product.flyable ||
+    props.product.rideable
+  )
+})
+
 const handleRemove = () => {
   emit('remove', props.product.id)
 }
@@ -62,9 +71,9 @@ const handleRemove = () => {
   width: 100%;
   padding: 16px;
   border-radius: 8px;
-  background: #fff;
+  background: var(--color-white);
   gap: 14px;
-  border: 2px solid #F6F6F6;
+  border: 2px solid var(--color-grey-bg);
 
   &::after {
     content: '';
@@ -75,38 +84,38 @@ const handleRemove = () => {
     margin: auto 0;
     height: 40px;
     width: 3px;
-    background: #4891FF;
+    background: var(--color-blue-primary);
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
   }
 
   &--common {
     &::after {
-      background: #4891FF;
+      background: var(--color-blue-primary);
     }
   }
 
   &--uncommon {
     &::after {
-      background: #7E10D4;
+      background: var(--color-purple-primary);
     }
   }
 
   &--rare {
     &::after {
-      background: #57be37;
+      background: var(--color-green-rare);
     }
   }
 
   &--ultra_rare {
     &::after {
-      background: #e33948;
+      background: var(--color-red-primary);
     }
   }
 
   &--legendary {
     &::after {
-      background: #1e1e1e;
+      background: var(--color-grey-dark);
     }
   }
 
@@ -116,7 +125,8 @@ const handleRemove = () => {
     align-items: flex-start;
     justify-content: center;
     gap: 4px;
-    color: #646464;
+    color: var(--color-grey-medium);
+    margin: auto auto auto 0;
   }
 
   &__properties {
@@ -124,7 +134,7 @@ const handleRemove = () => {
     flex-direction: row;
     align-items: center;
     gap: 4px;
-    background: #F6F6F6;
+    background: var(--color-grey-bg);
     padding: 10px;
     border-radius: 8px;
 

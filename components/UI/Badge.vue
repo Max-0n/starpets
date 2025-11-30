@@ -38,23 +38,23 @@ const props = withDefaults(
 
   // Цвета
   &--orange {
-    background: rgba(254, 153, 32, 0.1);
-    color: rgba(254, 153, 32, 1);
+    background: var(--color-orange-primary-light);
+    color: var(--color-orange-primary);
   }
 
   &--blue {
-    background: rgba(72, 145, 255, 0.1);
-    color: rgba(72, 145, 255, 1);
+    background: var(--color-blue-primary-light);
+    color: var(--color-blue-primary);
   }
 
   &--green {
-    background: rgba(64, 187, 24, 0.1);
-    color: rgba(64, 187, 24, 1);
+    background: var(--color-green-primary-light);
+    color: var(--color-green-primary);
   }
 
   &--red {
-    background: rgba(235, 61, 61, 0.1);
-    color: rgba(235, 61, 61, 1);
+    background: var(--color-red-primary-light);
+    color: var(--color-red-primary);
   }
 }
 </style>

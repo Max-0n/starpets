@@ -318,7 +318,7 @@ const handleProductClick = (product: Product) => {
       padding: 12px;
       background: var(--color-white);
       border-radius: 8px;
-      box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.03);
+      box-shadow: var(--box-shadow-dropdown);
       z-index: 100;
     }
 
@@ -328,11 +328,11 @@ const handleProductClick = (product: Product) => {
       justify-content: space-between;
       margin-bottom: 8px;
       padding-bottom: 8px;
-      border-bottom: 1px solid #F6F6F6;
+      border-bottom: 1px solid var(--color-grey-bg);
 
       p {
         margin: 0;
-        color: #646464;
+        color: var(--color-grey-medium);
         font-size: 16px;
       }
     }
@@ -342,12 +342,12 @@ const handleProductClick = (product: Product) => {
       border: none;
       cursor: pointer;
       padding: 0;
-      color: #646464;
+      color: var(--color-grey-medium);
       font-size: 14px;
       transition: color 0.15s ease-in-out;
 
       &:hover {
-        color: #000;
+        color: var(--color-black);
       }
 
       p {
@@ -371,12 +371,12 @@ const handleProductClick = (product: Product) => {
       transition: background 0.15s ease-in-out;
 
       &:hover {
-        background: #F6F6F6;
+        background: var(--color-grey-bg);
       }
 
       p {
         margin: 0;
-        color: #000;
+        color: var(--color-black);
         font-size: 14px;
         flex: 1;
       }
@@ -390,12 +390,12 @@ const handleProductClick = (product: Product) => {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #646464;
+      color: var(--color-grey-medium);
       transition: color 0.15s ease-in-out;
       margin-left: 8px;
 
       &:hover {
-        color: #000;
+        color: var(--color-black);
       }
     }
   }
@@ -422,21 +422,21 @@ const handleProductClick = (product: Product) => {
     flex-direction: row;
     height: 100%;
     border-radius: 4px;
-    background: #fff;
+    background: var(--color-white);
     text-align: left;
     padding: 8px 14px;
 
-    &:hover {
-      background: #F6F6F6;
-    }
+      &:hover {
+        background: var(--color-grey-bg);
+      }
 
     &__inner {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      background: #fff;
-      border: 2px solid #F6F6F6;
+      background: var(--color-white);
+      border: 2px solid var(--color-grey-bg);
       border-radius: 8px;
       padding: 10px 16px;
     }
@@ -450,7 +450,7 @@ const handleProductClick = (product: Product) => {
     padding: 4px;
     background: var(--color-white);
     border-radius: 8px;
-    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.03);
+    box-shadow: var(--box-shadow-dropdown);
     z-index: 100;
 
     & > *,
@@ -477,15 +477,18 @@ const handleProductClick = (product: Product) => {
   }
 
   &__loading,
+  &__loading {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: var(--color-grey-medium);
+  }
+
   &__error {
     width: 100%;
     padding: 20px;
     text-align: center;
-    color: #646464;
-  }
-
-  &__error {
-    color: #ff0000;
+    color: var(--color-red-error);
   }
 }
 </style>

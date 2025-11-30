@@ -62,8 +62,8 @@ const handleAddToCart = () => {
   width: 170px;
   padding: 16px;
   border-radius: 8px;
-  background: #fff;
-  border: 2px solid #F6F6F6;
+  background: var(--color-white);
+  border: 2px solid var(--color-grey-bg);
 
   &::after {
     content: '';
@@ -74,38 +74,38 @@ const handleAddToCart = () => {
     margin: 0 auto;
     height: 3px;
     width: 40px;
-    background: #4891FF;
+    background: var(--color-blue-primary);
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
   }
 
   &--common {
     &::after {
-      background: #4891FF;
+      background: var(--color-blue-primary);
     }
   }
 
   &--uncommon {
     &::after {
-      background: #7E10D4;
+      background: var(--color-purple-primary);
     }
   }
 
   &--rare {
     &::after {
-      background: #57be37;
+      background: var(--color-green-rare);
     }
   }
 
   &--ultra_rare {
     &::after {
-      background: #e33948;
+      background: var(--color-red-primary);
     }
   }
 
   &--legendary {
     &::after {
-      background: #1e1e1e;
+      background: var(--color-grey-dark);
     }
   }
 
@@ -116,7 +116,7 @@ const handleAddToCart = () => {
     align-items: flex-start;
     justify-content: center;
     gap: 4px;
-    color: #646464;
+    color: var(--color-grey-medium);
     text-align: left;
   }
 

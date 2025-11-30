@@ -40,29 +40,29 @@ const text = computed(() => {
   // Типы отображения
   &--regular {
     background: transparent;
-    color: #B5B5B5;
-    border: 1px solid #B5B5B5;
+    color: var(--color-grey-lightest);
+    border: 1px solid var(--color-grey-lightest);
   }
 
   &--neon {
-    background: #40BB18;
+    background: var(--color-green-primary);
     color: white;
     border-radius: 50px;
   }
 
   &--mega {
-    background: #7E10D4;
+    background: var(--color-purple-primary);
     color: white;
   }
 
   &--fly {
-    background: #108ED4;
+    background: var(--color-blue-fly);
     color: white;
     border-radius: 50px;
   }
 
   &--raid {
-    background: #D41057;
+    background: var(--color-pink-primary);
     color: white;
     border-radius: 50px;
   }

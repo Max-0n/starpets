@@ -67,9 +67,9 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
   display: flex;
   align-items: center;
   width: 100%;
-  background: #fff;
+  background: var(--color-white);
   border-radius: 8px;
-  border: 1px solid #F6F6F6;
+  border: 1px solid var(--color-grey-bg);
   transition: all ease-in-out 0.15s;
   cursor: text;
 
@@ -79,7 +79,7 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
     left: 12px;
     bottom: 0;
     margin: auto 0;
-    color: #646464;
+    color: var(--color-grey-medium);
   }
 
   &.disabled {
@@ -105,13 +105,13 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
   background: transparent;
   border: none;
   outline: none;
-  color: #000;
+  color: var(--color-black);
   font-weight: 500;
   line-height: 1.5;
   padding: 0;
 
   &::placeholder {
-    color: #646464;
+    color: var(--color-grey-medium);
     opacity: 1;
   }
 

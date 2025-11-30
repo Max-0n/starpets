@@ -19,7 +19,7 @@ defineProps<{ image?: string }>()
   aspect-ratio: 1 / 1;
   min-width: 10px;
   overflow: hidden;
-  border: 2.5px solid #fe9920;
+  border: 2.5px solid var(--color-orange-primary);
   padding: 2.5px;
 
   & > * {

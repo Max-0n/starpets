@@ -187,7 +187,7 @@ header {
         padding: 14px;
         background: var(--color-white);
         border-radius: 8px;
-        box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.03);
+        box-shadow: var(--box-shadow-dropdown);
 
         &__row {
           display: flex;
@@ -213,8 +213,8 @@ header {
           gap: 4px;
           padding: 14px;
           border-radius: 8px;
-          color: #B5B5B5;
-          background-color: #FAFAFA;
+          color: var(--color-grey-lightest);
+          background-color: var(--color-grey-bg-light);
         }
       }
 
@@ -248,13 +248,13 @@ header {
     display: flex;
     align-items: center;
     height: 100%;
-    color: #838383;
+    color: var(--color-grey-light);
     text-decoration: none;
     padding: 0 8px;
 
     &.is-active,
     &:hover {
-      color: #000000;
+      color: var(--color-black);
       &::after {
         content: '';
         position: absolute;
@@ -264,7 +264,7 @@ header {
         margin: 0 auto;
         width: 40px;
         height: 3px;
-        background: #FE9920;
+        background: var(--color-orange-primary);
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
       }

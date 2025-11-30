@@ -66,7 +66,7 @@ button {
   &[appearance="primary"],
   &:not([appearance]) {
     background: var(--button-primary-solid-background-default);
-    color: #fff;
+    color: var(--color-white);
     
     &:hover:not([disabled]) {
       background: var(--button-primary-solid-background-hover);
@@ -106,21 +106,21 @@ button {
 
   // White appearance
   &[appearance="white"] {
-    background: #fff;
-    color: #b5b5b5;
-    border: 2px solid #F6F6F6;
+    background: var(--color-white);
+    color: var(--color-grey-lightest);
+    border: 2px solid var(--color-grey-bg);
     
     &:hover:not([disabled]) {
-      background: #F6F6F6;
+      background: var(--color-grey-bg);
     }
 
     &:active:not([disabled]),
     &.active:not([disabled]) {
-      background: #F6F6F6;
+      background: var(--color-grey-bg);
     }
 
     &[disabled] {
-      background: #fff;
+      background: var(--color-white);
       opacity: 0.6;
     }
   }

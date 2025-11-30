@@ -73,7 +73,6 @@
 .text-color-grey    { @include text-color(var(--color-grey-light)); }
 .text-color-brown   { @include text-color(var(--color-brown)); }
 .text-color-main-dark { @include text-color(var(--color-main-dark)); }
-.text-color-main-dark { @include text-color(var(--color-main-dark)); }
 .text-color-danger  { @include text-color(var(--color-danger)); }
 .text-color-blue  { @include text-color(var(--color-blue)); }
 .text-color-yellow  { @include text-color(var(--color-yellow)); }
