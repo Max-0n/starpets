@@ -63,6 +63,9 @@
             UIIcon(name="cartBag").size-32
           p.text-size-18.text-weight-500 3 предмета в корзине
 
+        .header__cart-dropdown__list
+          ProductCardWide(v-for="item in 3" :key="item")
+
         .header__cart-dropdown__total.mt10
           p.text-weight-500 Сумма покупки
           p.text-weight-700.text-color-black 2 999.97 $
@@ -70,7 +73,6 @@
         UIButton(appearance="primary" wide).mt10
           UIIcon(name="cart").size-24
           p Купить
-
 
         UIButton(appearance="secondary" wide).mt10
           p Очистить корзину
@@ -157,6 +159,13 @@ header {
           flex-direction: row;
           align-items: center;
           gap: 8px;
+        }
+
+        &__list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin: 20px 0;
         }
 
         &__total {
