@@ -44,15 +44,9 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-white);
-  background: var(--color-main);
   padding: 12px 24px;
   border-radius: 8px;
   border: none;
-  font-family: var(--font-family);
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5;
   cursor: pointer;
   transition: all ease-in-out 0.15s;
   white-space: nowrap;
@@ -69,47 +63,43 @@ button {
   &[appearance="main"],
   &[appearance="primary"],
   &:not([appearance]) {
-    background: var(--color-main);
-    color: var(--color-white);
+    background: var(--button-primary-solid-background-default);
+    color: #fff;
     
     &:hover:not([disabled]) {
-      background: var(--color-main-light);
+      background: var(--button-primary-solid-background-hover);
+    }
+
+    &:active:not([disabled]),
+    &.active:not([disabled]) {
+      background: var(--button-primary-solid-background-pressed);
+    }
+
+    &[disabled] {
+      background: var(--button-primary-solid-background-disabled);
     }
   }
 
   // Secondary appearance
   &[appearance="secondary"] {
-    background: var(--color-button-secondary);
-    color: var(--color-white);
+    background: var(--button-secondary-solid-background-default);
+    color: var(--button-secondary-solid-text-default);
     
     &:hover:not([disabled]) {
-      background: var(--color-button-secondary-light);
+      background: var(--button-secondary-solid-background-hover);
+      color: var(--button-secondary-solid-text-hover);
     }
-  }
 
-  &[appearance="tertiary"] {
-    background: var(--color-green-faded);
-    color: var(--color-white);
-  }
+    &:active:not([disabled]),
+    &.active:not([disabled]) {
+      background: var(--button-secondary-solid-background-pressed);
+      color: var(--button-secondary-solid-text-pressed);
+    }
 
-  &[appearance="danger"] {
-    background: var(--color-danger);
-    color: var(--color-white);
-  }
-
-  &[appearance="blue"] {
-    background: var(--color-button-blue);
-    color: var(--color-white);
-  }
-
-  &[appearance="orange"] {
-    background: var(--color-orange3);
-    color: var(--color-white);
-  }
-
-  &[appearance="yellow"] {
-    background: var(--color-yellow);
-    color: var(--color-text-black);
+    &[disabled] {
+      background: var(--button-secondary-solid-background-disabled);
+      color: var(--button-secondary-solid-text-disabled);
+    }
   }
 
   // Size variants

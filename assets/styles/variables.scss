@@ -29,6 +29,27 @@
 
   --color-button-blue: #239BD6;
 
+  // Button Primary Solid
+  --button-primary-solid-background-default: #fe9920;
+  --button-primary-solid-background-hover: #ffa538;
+  --button-primary-solid-background-pressed: #ffa538;
+  --button-primary-solid-background-disabled: #ffd097;
+
+  // Button Secondary Solid
+  --button-secondary-solid-background-default: #fafafa;
+  --button-secondary-solid-background-hover: #f6f6f6;
+  --button-secondary-solid-background-pressed: #f6f6f6;
+  --button-secondary-solid-background-disabled: #fcfcfc;
+  --button-secondary-solid-background-loader: #f6f6f6;
+  --button-secondary-solid-text-default: #b5b5b5;
+  --button-secondary-solid-text-hover: #646464;
+  --button-secondary-solid-text-pressed: #838383;
+  --button-secondary-solid-text-disabled: #b5b5b5;
+  --button-secondary-solid-icon-default: #b5b5b5;
+  --button-secondary-solid-icon-hover: #646464;
+  --button-secondary-solid-icon-pressed: #838383;
+  --button-secondary-solid-icon-disabled: #b5b5b5;
+
   // theme
   --color-green-dark: #004C4D;
   --color-green: #006466;

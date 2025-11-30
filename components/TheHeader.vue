@@ -17,6 +17,7 @@
           p Помощь
 
     .header__right
+      
 </template>
 
 <script setup lang="ts">
