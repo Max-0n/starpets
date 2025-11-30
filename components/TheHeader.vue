@@ -79,13 +79,15 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import avaImage from '~/assets/images/ava.jpg'
 
 const route = useRoute()
 const isActiveCart = ref(false)
 const appStore = useAppStore()
-const { login, isAuthenticated, isLoading } = appStore
+const { login } = appStore
+const { isAuthenticated, isLoading, user } = storeToRefs(appStore)
 
 const isActive = (path: string) => {
   return route.path === path
@@ -98,12 +100,12 @@ const handleAuth = () => {
 }
 
 const formattedBalance = computed(() => {
-  if (!appStore.user?.balance) return '0.00 $'
-  return `${appStore.user.balance.toFixed(2)} $`
+  if (!user.value?.balance) return '0.00 $'
+  return `${user.value.balance.toFixed(2)} $`
 })
 
 const userLogin = computed(() => {
-  return appStore.user?.login || 'StarPets LTD'
+  return user.value?.login || 'StarPets LTD'
 })
 </script>
 
