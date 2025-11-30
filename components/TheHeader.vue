@@ -227,7 +227,7 @@ header {
         left: 0;
         right: 0;
         margin: 0 auto;
-        width: calc(80% - 16px);
+        width: 40px;
         height: 3px;
         background: #FE9920;
         border-top-left-radius: 3px;

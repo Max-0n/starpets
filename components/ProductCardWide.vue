@@ -25,42 +25,57 @@ import avaImage from '~/assets/images/ava.jpg'
 
 <style lang="scss" scoped>
 .product-card-wide {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--color-white);
+  gap: 14px;
+  border: 2px solid #F6F6F6;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto 0;
+    height: 40px;
+    width: 3px;
+    background: #4891FF;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+    color: #646464;
+  }
+
+  &__properties {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 16px;
+    gap: 4px;
+    background: #F6F6F6;
+    padding: 10px;
     border-radius: 8px;
-    background: var(--color-white);
-    gap: 14px;
-    border: 2px solid #F6F6F6;
 
-    &__info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        gap: 4px;
-        color: #646464;
+    &__wrapper {
+      display: flex;
+      align-items: flex-start;            
+      margin: auto 0 auto auto;
+      width: 126px;
     }
-
-    &__properties {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 4px;
-        background: #F6F6F6;
-        padding: 10px;
-        border-radius: 8px;
-
-        &__wrapper {
-            display: flex;
-            align-items: flex-start;            
-            margin: auto 0 auto auto;
-            width: 126px;
-        }
-    }
+  }
 }
 </style>
 

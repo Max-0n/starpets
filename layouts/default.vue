@@ -4,7 +4,7 @@
   main
     NuxtPage
 
-  TheFooter
+  //TheFooter
 
   ModalsLayout
 </template>
@@ -13,11 +13,6 @@
 </script>
 
 <style lang="scss" scoped>
-footer {
-  position: fixed;
-  bottom: 10px;
-}
-
 main {
   display: flex;
   padding-top: 82px;
