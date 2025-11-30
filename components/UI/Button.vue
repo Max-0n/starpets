@@ -165,6 +165,10 @@ button {
     background: transparent;
     padding: 0;
     box-shadow: none;
+
+    &:hover:not([disabled]) {
+      background: transparent;
+    }
   }
 
   &.without-padding {

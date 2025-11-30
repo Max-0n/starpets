@@ -4,21 +4,38 @@
       NuxtLink(to="/").logo
         UIIcon(name="logo")
 
-      .header__tabs.text-size-18.text-weight-500
-        NuxtLink(to="/").nav-link
-          p Маркет
-        NuxtLink(to="/products").nav-link
-          p Предметы
-        NuxtLink(to="/sale").nav-link
-          p Продажа
-        NuxtLink(to="/currency").nav-link
-          p R$
-        NuxtLink(to="/help").nav-link
-          p Помощь
+      //- .header__tabs.text-size-18.text-weight-500
+      //-   NuxtLink(to="/").nav-link
+      //-     p Маркет
+      //-   NuxtLink(to="/products").nav-link
+      //-     p Предметы
+      //-   NuxtLink(to="/sale").nav-link
+      //-     p Продажа
+      //-   NuxtLink(to="/currency").nav-link
+      //-     p R$
+      //-   NuxtLink(to="/help").nav-link
+      //-     p Помощь
 
     .header__right
+      UIButton(appearance="secondary" withoutPadding ghost)
+        .header__cart
+          .header__cart-info.text-color-black
+            p.text-weight-600 1 415.61 $
+            p.text-size-14 Ваш баланс
+
+          UIButton(appearance="primary" withoutPadding).size-48
+            p.text-size-32 +
+    
       UIButton(appearance="secondary" withoutPadding).size-48
         UIFlag(code="ru").size-24
+
+      UIButton(appearance="secondary" withoutPadding ghost)
+        .header__cart
+          .header__cart-info.text-color-black
+            p.text-size-14.text-weight-600  StarPets LTD
+            p.text-size-14 Профиль
+
+          UIAvatar(:image="avaImage").size-56
 
       UIButton(appearance="secondary" withoutPadding).size-48
         p $
@@ -43,6 +60,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import avaImage from '~/assets/images/ava.jpg'
 
 const route = useRoute()
 const isActiveCart = ref(false)
