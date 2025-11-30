@@ -64,6 +64,10 @@
       UIButton(appearance="white")
         p.text-weight-500 Цена
         UIIcon(name="close").size-12.ml8
+
+    .market__list
+      ProductCard(v-for="item in 12" :key="item")
+
 </template>
 
 <script lang="ts" setup>
@@ -150,5 +154,13 @@ const searchQuery = ref('')
     }
   }
 
+  &__list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
 }
 </style>
