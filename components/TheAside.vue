@@ -129,13 +129,11 @@ const close = () => {
 <style lang="scss" scoped>
 aside {
   position: fixed;
-  top: 0;
+  top: 82px;
   left: 0;
-  width: 100%;
   max-width: 360px;
-  height: 100%;
+  height: calc(100% - 82px);
   background: var(--color-white);
-  box-shadow: -4px 0 18px 0 rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   z-index: 1000;
