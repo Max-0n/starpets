@@ -1,15 +1,14 @@
 <template lang="pug">
-  .product-card(@click="handleClick")
+  .product-card(@click="handleClick" :class="`product-card--${product.rare}`")
     UIImage(:image="product.imageUri").size-78.mb10
 
     .product-card__info.mt4
-      p.product-card__subtitle.text-weight-400.text-size-14 {{ formattedType }}
+      p.product-card__subtitle.text-weight-400.text-size-14 {{ formattedType }} 
       p.product-card__name.text-weight-600.text-color-black {{ product.name }}
       p.text-weight-700.text-color-black {{ formattedPrice }}
 
     .product-card__properties__wrapper
       .product-card__properties
-        UIProperty(v-if="product.level === 'default' || !product.level" type="regular")
         UIProperty(v-if="product.level === 'neon'" type="neon")
         UIProperty(v-if="product.level === 'mega_neon'" type="mega")
         UIProperty(v-if="product.flyable" type="fly")
@@ -78,6 +77,36 @@ const handleAddToCart = () => {
     background: #4891FF;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+  }
+
+  &--common {
+    &::after {
+      background: #4891FF;
+    }
+  }
+
+  &--uncommon {
+    &::after {
+      background: #7E10D4;
+    }
+  }
+
+  &--rare {
+    &::after {
+      background: #57be37;
+    }
+  }
+
+  &--ultra_rare {
+    &::after {
+      background: #e33948;
+    }
+  }
+
+  &--legendary {
+    &::after {
+      background: #1e1e1e;
+    }
   }
 
   &__info {

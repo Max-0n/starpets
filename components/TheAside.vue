@@ -83,7 +83,13 @@ const isPropertiesOpen = ref(true)
 const priceMin = ref('0.00')
 const priceMax = ref('∞')
 
-const rarities = [{ color: 'blue' }, { color: 'purple' }, { color: 'green' }, { color: 'red' }, { color: 'grey' }]
+const rarities = [
+  { color: 'common' },
+  { color: 'uncommon' },
+  { color: 'rare' },
+  { color: 'ultra_rare' },
+  { color: 'legendary' },
+]
 
 const properties = [
   { type: 'regular', label: 'Обычный' },
@@ -280,35 +286,35 @@ aside {
     }
   }
 
-  &--blue {
+  &--common {
     background: #4891FF4D;
     &::after {
       background: #4891FF;
     }
   }
 
-  &--purple {
+  &--uncommon {
     background: #7E10D44D;
     &::after {
       background: #7E10D4;
     }
   }
 
-  &--green {
+  &--rare {
     background: #c6ebba;
     &::after {
       background: #57be37;
     }
   }
 
-  &--red {
+  &--ultra_rare {
     background: #f7bbc0;
     &::after {
       background: #e33948;
     }
   }
 
-  &--grey {
+  &--legendary {
     background: #bbbbbb;
     &::after {
       background: #1e1e1e;

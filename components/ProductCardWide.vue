@@ -1,5 +1,5 @@
 <template lang="pug">
-  .product-card-wide
+  .product-card-wide(:class="`product-card-wide--${product.rare}`")
     UIImage(:image="productImage").size-58
 
     .product-card-wide__info
@@ -9,7 +9,6 @@
 
     .product-card-wide__properties__wrapper
       .product-card-wide__properties
-        UIProperty(v-if="product.level === 'default' || !product.level" type="regular")
         UIProperty(v-if="product.level === 'neon'" type="neon")
         UIProperty(v-if="product.level === 'mega_neon'" type="mega")
         UIProperty(v-if="product.flyable" type="fly")
@@ -79,6 +78,36 @@ const handleRemove = () => {
     background: #4891FF;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
+  }
+
+  &--common {
+    &::after {
+      background: #4891FF;
+    }
+  }
+
+  &--uncommon {
+    &::after {
+      background: #7E10D4;
+    }
+  }
+
+  &--rare {
+    &::after {
+      background: #57be37;
+    }
+  }
+
+  &--ultra_rare {
+    &::after {
+      background: #e33948;
+    }
+  }
+
+  &--legendary {
+    &::after {
+      background: #1e1e1e;
+    }
   }
 
   &__info {
