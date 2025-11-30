@@ -1,6 +1,8 @@
 <template lang="pug">
   TheHeader
 
+  TheAside
+
   main
     NuxtPage
 
