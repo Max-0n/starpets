@@ -2,7 +2,8 @@
   header
     .header__left
       NuxtLink(to="/").logo
-        UIIcon(name="logo")
+        UIIcon(name="logo").header__logo-full
+        UIImage(:image="logoMiniImage").header__logo-mini
 
       .header__tabs.text-size-18.text-weight-500
         NuxtLink(to="/").nav-link
@@ -31,7 +32,7 @@
 
       UIButton(v-if="isAuthenticated" appearance="secondary" withoutPadding ghost)
         .header__cart
-          .header__cart-info.text-color-black
+          .header__cart-info.text-color-black.header__cart-info--profile
             p.text-size-14.text-weight-600 {{ userLogin }}
             p.text-size-14 Профиль
 
@@ -50,12 +51,13 @@
         .header__cart
           UIButton(appearance="primary" withoutPadding).size-48
             UIIcon(name="cart").size-24
+            .header__cart-count.text-weight-700(v-show="cartItemsCount > 0") {{ cartItemsCount }}
 
-          .header__cart-info.text-color-black
+          .header__cart-info.text-color-black.header__cart-info--cart
             p.text-size-12 К покупке
             p.text-weight-700 {{ formattedCartTotal }}
 
-          UIIcon(name="arrowRight" :class="{ 'active': isActiveCart }").size-18.header__cart-arrow
+          UIIcon(name="arrowRight" :class="{ 'active': isActiveCart }").size-18.header__cart-arrow.header__cart-arrow--mobile-hidden
 
       .header__cart-dropdown(v-show="isActiveCart")
         .header__cart-dropdown__row
@@ -87,6 +89,7 @@
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 import avaImage from '~/assets/images/ava.jpg'
+import logoMiniImage from '~/assets/images/logoMini.png'
 
 const route = useRoute()
 const isActiveCart = ref(false)
@@ -167,6 +170,7 @@ header {
     }
 
     &__cart {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -176,6 +180,17 @@ header {
         height: 100%;
         padding: 0 16px;
         border-radius: 0;
+      }
+
+      &-count {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        min-width: 20px;
+        height: 20px;
+        border-radius: 6px;
+        background: var(--color-white);
+        color: var(--color-black);
       }
 
       &-dropdown {
@@ -225,6 +240,18 @@ header {
         justify-content: center;
         gap: 4px;
         min-width: 60px;
+
+        &--profile {
+          @media (max-width: 1440px) {
+            display: none;
+          }
+        }
+
+        &--cart {
+          @media (max-width: 1023px) {
+            display: none;
+          }
+        }
       }
 
       &-arrow {
@@ -233,14 +260,40 @@ header {
         &.active {
           transform: rotate(270deg);
         }
+
+        &--mobile-hidden {
+          @media (max-width: 1023px) {
+            display: none;
+          }
+        }
       }
     }
   }
 
   .logo {
     margin-left: 28px;
-    width: 201px;
-    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .header__logo-full {
+      width: 201px;
+      height: 32px;
+
+      @media (max-width: 1023px) {
+        display: none;
+      }
+    }
+
+    .header__logo-mini {
+      display: none;
+      width: 52px;
+      height: 40px;
+
+      @media (max-width: 1023px) {
+        display: block;
+      }
+    }
   }
 
   .nav-link {
