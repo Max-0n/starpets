@@ -38,7 +38,7 @@ aside
           .aside__rarity-swatch.size-40(
             v-for="(rarity, index) in rarities"
             :key="index"
-            :class="[{ 'active': selectedRarities.includes(index) }, `aside__rarity-swatch--${rarity.color}`]"
+            :class="[{ 'active': selectedRarityIndices.includes(index) }, `aside__rarity-swatch--${rarity.color}`]"
             @click="toggleRarity(index)"
           )
 
@@ -74,11 +74,13 @@ const emit = defineEmits<{
   close: []
 }>()
 
+const productsStore = useProductsStore()
+const { selectedRarityIndices, toggleRarity, clearRarities } = productsStore
+
 const isRarityOpen = ref(true)
 const isPropertiesOpen = ref(true)
 const priceMin = ref('0.00')
 const priceMax = ref('∞')
-const selectedRarities = ref<number[]>([])
 const selectedProperties = ref<string[]>([])
 
 const rarities = [{ color: 'blue' }, { color: 'purple' }, { color: 'green' }, { color: 'red' }, { color: 'grey' }]
@@ -90,15 +92,6 @@ const properties = [
   { type: 'fly', label: 'Флай' },
   { type: 'raid', label: 'Райд' },
 ]
-
-const toggleRarity = (index: number) => {
-  const idx = selectedRarities.value.indexOf(index)
-  if (idx > -1) {
-    selectedRarities.value.splice(idx, 1)
-  } else {
-    selectedRarities.value.push(index)
-  }
-}
 
 const toggleProperties = () => {
   isPropertiesOpen.value = !isPropertiesOpen.value
@@ -116,7 +109,7 @@ const toggleProperty = (type: string) => {
 const resetFilters = () => {
   priceMin.value = '0.00'
   priceMax.value = '∞'
-  selectedRarities.value = []
+  clearRarities()
   selectedProperties.value = []
 }
 

@@ -93,16 +93,16 @@
         :product="product"
         @add-to-cart="handleAddToCart"
       )
-      .market__loading(v-if="productsQuery.isLoading.value")
+      .market__loading(v-if="productsStore.isLoading")
         p Загрузка...
-      .market__error(v-if="productsQuery.isError.value")
-        p Ошибка загрузки продуктов
+      .market__error(v-if="productsStore.error")
+        p {{ productsStore.error }}
 
 </template>
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref } from 'vue'
-import type { FetchProductsRequest, Product } from '~/types/product'
+import type { Product } from '~/types/product'
 
 const appStore = useAppStore()
 const productsStore = useProductsStore()
@@ -207,21 +207,9 @@ const debouncedSearchQuery = useDebounce(searchQuery, 300)
 // Загрузка истории при монтировании
 onMounted(() => {
   loadSearchHistory()
+  // Загружаем продукты при монтировании компонента
+  productsStore.fetchProducts()
 })
-
-// Параметры запроса по умолчанию
-const requestParams = computed<FetchProductsRequest>(() => ({
-  filter: {
-    types: [{ type: 'transport' }, { type: 'pet' }, { type: 'egg' }, { type: 'potion' }],
-  },
-  page: 1,
-  amount: 72,
-  currency: 'usd',
-  sort: { price: 'desc' },
-}))
-
-// Запрос продуктов через TanStack Query
-const productsQuery = useProducts(requestParams)
 
 // Обработчик добавления в корзину
 const handleAddToCart = (product: Product) => {

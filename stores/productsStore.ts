@@ -1,4 +1,14 @@
-import type { FetchProductsRequest, Product } from '~/types/product'
+import { computed } from 'vue'
+import type { FetchProductsRequest, FetchProductsResponse, Product, ProductRarity } from '~/types/product'
+
+// Маппинг цветов на значения бэкенда
+const RARITY_MAP: Record<string, ProductRarity> = {
+  blue: 'common',
+  purple: 'uncommon',
+  green: 'rare',
+  red: 'ultra_rare',
+  grey: 'legendary',
+}
 
 export const useProductsStore = defineStore('productsStore', () => {
   const products = ref<Product[]>([])
@@ -7,6 +17,18 @@ export const useProductsStore = defineStore('productsStore', () => {
   const currentPage = ref(1)
   const totalPages = ref(1)
   const total = ref(0)
+
+  // Фильтры
+  const selectedRarityIndices = ref<number[]>([])
+
+  const selectedRarities = computed<ProductRarity[]>(() => {
+    const rarityColors = ['blue', 'purple', 'green', 'red', 'grey']
+    return selectedRarityIndices.value
+      .map(index => rarityColors[index])
+      .filter((color): color is string => Boolean(color))
+      .map(color => RARITY_MAP[color])
+      .filter((rarity): rarity is ProductRarity => Boolean(rarity))
+  })
 
   const setProducts = (items: Product[]) => {
     products.value = items
@@ -40,6 +62,89 @@ export const useProductsStore = defineStore('productsStore', () => {
     isLoading.value = loading
   }
 
+  // Методы управления фильтрами
+  const toggleRarity = (index: number) => {
+    const idx = selectedRarityIndices.value.indexOf(index)
+    if (idx > -1) {
+      selectedRarityIndices.value.splice(idx, 1)
+    } else {
+      selectedRarityIndices.value.push(index)
+    }
+    // Автоматически обновляем продукты при изменении фильтров
+    fetchProducts()
+  }
+
+  const clearRarities = () => {
+    selectedRarityIndices.value = []
+    fetchProducts()
+  }
+
+  // Параметры запроса по умолчанию
+  const getRequestParams = (): FetchProductsRequest => {
+    const baseTypes = [
+      { type: 'transport' as const },
+      { type: 'pet' as const },
+      { type: 'egg' as const },
+      { type: 'potion' as const },
+    ]
+
+    // Если выбраны редкости, добавляем их к каждому типу
+    const types =
+      selectedRarities.value.length > 0
+        ? baseTypes.map(type => ({
+            ...type,
+            rarities: selectedRarities.value,
+          }))
+        : baseTypes
+
+    return {
+      filter: {
+        types,
+      },
+      page: currentPage.value,
+      amount: 72,
+      currency: 'usd',
+      sort: { price: 'desc' },
+    }
+  }
+
+  // Метод для выполнения запроса
+  const fetchProducts = async () => {
+    isLoading.value = true
+    error.value = null
+
+    try {
+      const requestParams = getRequestParams()
+      const response = (await $api.post('https://market.apineural.com/api/store/items/all', {
+        body: requestParams,
+        baseURL: '', // Override baseURL to use full URL
+      })) as FetchProductsResponse
+
+      // Сохраняем продукты в store
+      if (response.items) {
+        setProducts(response.items)
+      }
+
+      if (response.totalPages) {
+        setTotalPages(response.totalPages)
+      }
+
+      if (response.total !== undefined) {
+        setTotal(response.total)
+      }
+
+      if (response.page) {
+        setPage(response.page)
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Ошибка загрузки продуктов'
+      setError(errorMessage)
+      throw err
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     products,
     isLoading,
@@ -47,6 +152,8 @@ export const useProductsStore = defineStore('productsStore', () => {
     currentPage,
     totalPages,
     total,
+    selectedRarityIndices,
+    selectedRarities,
     setProducts,
     addProducts,
     clearProducts,
@@ -55,5 +162,8 @@ export const useProductsStore = defineStore('productsStore', () => {
     setTotal,
     setError,
     setLoading,
+    toggleRarity,
+    clearRarities,
+    fetchProducts,
   }
 })
