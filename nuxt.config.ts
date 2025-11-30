@@ -3,6 +3,7 @@
 import svgLoader from 'vite-svg-loader'
 
 export default defineNuxtConfig({
+  srcDir: 'src',
   app: {
     head: {
       title: 'Starpets',
@@ -21,8 +22,27 @@ export default defineNuxtConfig({
     },
   },
   compatibilityDate: '2025-10-30',
-  components: true,
-  css: ['~/assets/styles/app.scss'],
+  components: [
+    {
+      path: '~/shared/ui',
+      pathPrefix: false,
+      prefix: 'UI',
+    },
+    {
+      path: '~/entities',
+      pathPrefix: false,
+      ignore: ['**/api/**', '**/model/**'],
+    },
+    {
+      path: '~/widgets',
+      pathPrefix: false,
+    },
+    {
+      path: '~/features',
+      pathPrefix: false,
+    },
+  ],
+  css: ['~/shared/assets/styles/app.scss'],
   devServer: {
     // https: true,
     port: 3000,
@@ -41,9 +61,18 @@ export default defineNuxtConfig({
     compilation: {
       strictMessage: false,
     },
+    vueI18n: '~/shared/config/i18n/i18n.config.ts',
   },
   imports: {
-    dirs: ['./composables/**', './components/**', './types/**', './constants/**'],
+    dirs: [
+      './shared/lib/**',
+      './shared/api/useApi.ts',
+      './shared/types/**',
+      './shared/config/**',
+      './entities/**/model/productsStore.ts',
+      './entities/**/model/appStore.ts',
+      './entities/**/api/useProducts.ts',
+    ],
   },
   modules: [
     '@nuxt/eslint',
@@ -92,7 +121,7 @@ export default defineNuxtConfig({
     ],
   ],
   pinia: {
-    storesDirs: ['./stores/**'],
+    storesDirs: ['./entities/**/model/**'],
   },
   runtimeConfig: {
     public: {
