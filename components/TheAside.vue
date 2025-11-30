@@ -1,6 +1,5 @@
 <template lang="pug">
 aside
-  // Header
   .aside__header
     p.text-size-18.text-weight-500 Фильтры
     .aside__header-actions
@@ -10,9 +9,9 @@ aside
         UIIcon(name="close").size-18
   
   .aside__content
-    // Price Section
     .aside__section
-      p.aside__section-title.text-size-16.text-weight-500 Цена
+      .aside__section-header
+        p.aside__section-title.text-size-16.text-weight-500 Цена
       .aside__price-range
         .aside__price-input
           span.aside__price-currency $
@@ -29,22 +28,20 @@ aside
             type="number"
             placeholder="∞"
           )
-    
-    // Rarity Section
+
     .aside__section
       .aside__section-header(@click="isRarityOpen = !isRarityOpen")
         p.aside__section-title.text-size-16.text-weight-500 Редкость
         UIIcon(name="arrowRight" :class="{ 'active': isRarityOpen }").size-18.aside__arrow
       .aside__section-content(v-show="isRarityOpen")
         .aside__rarity-swatches
-          .aside__rarity-swatch(
+          .aside__rarity-swatch.size-40(
             v-for="(rarity, index) in rarities"
             :key="index"
             :class="[{ 'active': selectedRarities.includes(index) }, `aside__rarity-swatch--${rarity.color}`]"
             @click="toggleRarity(index)"
           )
-    
-    // Properties Section
+
     .aside__section
       .aside__section-header(@click="toggleProperties")
         p.aside__section-title.text-size-16.text-weight-500 Свойства
@@ -61,7 +58,6 @@ aside
             UIProperty(:type="property.type")
             p.text-size-14 {{ property.label }}
   
-  // Footer
   .aside__footer
     p.text-size-12.text-color-grey © 2020-2023 STARPETS.GG All Rights Reserved
 </template>
@@ -136,7 +132,7 @@ aside {
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 400px;
+  max-width: 360px;
   height: 100%;
   background: var(--color-white);
   box-shadow: -4px 0 18px 0 rgba(0, 0, 0, 0.1);
@@ -226,7 +222,7 @@ aside {
   font-size: 16px;
   font-weight: 500;
   color: var(--color-text-black);
-  max-width: 100px;
+  max-width: 80px;
 
   &::placeholder {
     color: #646464;
@@ -247,17 +243,15 @@ aside {
 // Rarity Section
 .aside__rarity-swatches {
   display: flex;
-  gap: 12px;
+  gap: 14px;
 }
 
 .aside__rarity-swatch {
-  flex: 1;
   aspect-ratio: 1;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 2px solid transparent;
   position: relative;
+  overflow: hidden;
 
   &::after {
     content: '';
@@ -267,38 +261,50 @@ aside {
     right: 0;
     bottom: 0;
     border-radius: 6px;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    box-shadow: inset 0 0 0 2px var(--color-white);
+    transform: translateY(26px);
+    transition: transform 0.3s ease-in-out;
   }
 
+  &:hover,
   &.active {
-    border-color: var(--color-black);
-    transform: scale(1.05);
-
     &::after {
-      opacity: 1;
+      transform: translateY(0);
     }
   }
 
   &--blue {
-    background: linear-gradient(to top, #1a4d7a, #4a9eff);
+    background: #4891FF4D;
+    &::after {
+      background: #4891FF;
+    }
   }
 
   &--purple {
-    background: linear-gradient(to top, #5a1a7a, #a855f7);
+    background: #7E10D44D;
+    &::after {
+      background: #7E10D4;
+    }
   }
 
   &--green {
-    background: linear-gradient(to top, #1a5a3a, #4ade80);
+    background: #c6ebba;
+    &::after {
+      background: #57be37;
+    }
   }
 
   &--red {
-    background: linear-gradient(to top, #7a1a1a, #f87171);
+    background: #f7bbc0;
+    &::after {
+      background: #e33948;
+    }
   }
 
   &--grey {
-    background: linear-gradient(to top, #1a1a1a, #9ca3af);
+    background: #bbbbbb;
+    &::after {
+      background: #1e1e1e;
+    }
   }
 }
 
