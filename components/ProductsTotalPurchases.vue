@@ -103,8 +103,8 @@ const formattedOnlineUsers = computed(() => {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        border: 2px solid #daf1d1;
-        background: #40BB18;
+        border: 2px solid var(--color-green-primary-light-border);
+        background: var(--color-green-primary);
     }
   }
   

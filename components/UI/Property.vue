@@ -46,24 +46,24 @@ const text = computed(() => {
 
   &--neon {
     background: var(--color-green-primary);
-    color: white;
+    color: var(--color-white);
     border-radius: 50px;
   }
 
   &--mega {
     background: var(--color-purple-primary);
-    color: white;
+    color: var(--color-white);
   }
 
   &--fly {
     background: var(--color-blue-fly);
-    color: white;
+    color: var(--color-white);
     border-radius: 50px;
   }
 
   &--raid {
     background: var(--color-pink-primary);
-    color: white;
+    color: var(--color-white);
     border-radius: 50px;
   }
 }

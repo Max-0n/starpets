@@ -63,7 +63,7 @@ const props = withDefaults(
   }
 
   &--pink {
-    background: rgba(212, 16, 87, 0.1);
+    background: var(--color-pink-primary-light);
     color: var(--color-pink-primary);
   }
 }
