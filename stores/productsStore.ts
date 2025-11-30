@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import type { FetchProductsRequest, FetchProductsResponse, Product, ProductRarity } from '~/types/product'
+import type { FetchProductsRequest, FetchProductsResponse, Product, ProductLevel, ProductRarity } from '~/types/product'
 
 // Маппинг цветов на значения бэкенда
 const RARITY_MAP: Record<string, ProductRarity> = {
@@ -8,6 +8,15 @@ const RARITY_MAP: Record<string, ProductRarity> = {
   green: 'rare',
   red: 'ultra_rare',
   grey: 'legendary',
+}
+
+// Маппинг свойств UI на значения бэкенда
+const PROPERTY_MAP: Record<string, 'default' | 'neon' | 'mega_neon' | 'flyable' | 'rideable'> = {
+  regular: 'default',
+  neon: 'neon',
+  mega: 'mega_neon',
+  fly: 'flyable',
+  raid: 'rideable',
 }
 
 export const useProductsStore = defineStore('productsStore', () => {
@@ -20,6 +29,7 @@ export const useProductsStore = defineStore('productsStore', () => {
 
   // Фильтры
   const selectedRarityIndices = ref<number[]>([])
+  const selectedProperties = ref<string[]>([])
 
   const selectedRarities = computed<ProductRarity[]>(() => {
     const rarityColors = ['blue', 'purple', 'green', 'red', 'grey']
@@ -28,6 +38,28 @@ export const useProductsStore = defineStore('productsStore', () => {
       .filter((color): color is string => Boolean(color))
       .map(color => RARITY_MAP[color])
       .filter((rarity): rarity is ProductRarity => Boolean(rarity))
+  })
+
+  // Преобразование выбранных свойств в levels и properties для запроса
+  const selectedLevels = computed<ProductLevel[]>(() => {
+    return selectedProperties.value
+      .map(prop => PROPERTY_MAP[prop])
+      .filter((value): value is ProductLevel => value === 'default' || value === 'neon' || value === 'mega_neon')
+  })
+
+  const selectedPropertiesFilter = computed(() => {
+    const hasFlyable = selectedProperties.value.some(prop => PROPERTY_MAP[prop] === 'flyable')
+    const hasRideable = selectedProperties.value.some(prop => PROPERTY_MAP[prop] === 'rideable')
+
+    if (!hasFlyable && !hasRideable) {
+      return undefined
+    }
+
+    return {
+      missing: false,
+      ...(hasFlyable && { flyable: true }),
+      ...(hasRideable && { rideable: true }),
+    }
   })
 
   const setProducts = (items: Product[]) => {
@@ -79,6 +111,22 @@ export const useProductsStore = defineStore('productsStore', () => {
     fetchProducts()
   }
 
+  const toggleProperty = (type: string) => {
+    const idx = selectedProperties.value.indexOf(type)
+    if (idx > -1) {
+      selectedProperties.value.splice(idx, 1)
+    } else {
+      selectedProperties.value.push(type)
+    }
+    // Автоматически обновляем продукты при изменении фильтров
+    fetchProducts()
+  }
+
+  const clearProperties = () => {
+    selectedProperties.value = []
+    fetchProducts()
+  }
+
   // Параметры запроса по умолчанию
   const getRequestParams = (): FetchProductsRequest => {
     const baseTypes = [
@@ -88,14 +136,27 @@ export const useProductsStore = defineStore('productsStore', () => {
       { type: 'potion' as const },
     ]
 
-    // Если выбраны редкости, добавляем их к каждому типу
-    const types =
-      selectedRarities.value.length > 0
-        ? baseTypes.map(type => ({
-            ...type,
-            rarities: selectedRarities.value,
-          }))
-        : baseTypes
+    // Формируем фильтры для каждого типа
+    const types = baseTypes.map(type => {
+      const typeFilter: any = { ...type }
+
+      // Добавляем редкости, если выбраны
+      if (selectedRarities.value.length > 0) {
+        typeFilter.rarities = selectedRarities.value
+      }
+
+      // Добавляем уровни, если выбраны
+      if (selectedLevels.value.length > 0) {
+        typeFilter.levels = selectedLevels.value
+      }
+
+      // Добавляем свойства, если выбраны
+      if (selectedPropertiesFilter.value) {
+        typeFilter.properties = selectedPropertiesFilter.value
+      }
+
+      return typeFilter
+    })
 
     return {
       filter: {
@@ -154,6 +215,7 @@ export const useProductsStore = defineStore('productsStore', () => {
     total,
     selectedRarityIndices,
     selectedRarities,
+    selectedProperties,
     setProducts,
     addProducts,
     clearProducts,
@@ -164,6 +226,8 @@ export const useProductsStore = defineStore('productsStore', () => {
     setLoading,
     toggleRarity,
     clearRarities,
+    toggleProperty,
+    clearProperties,
     fetchProducts,
   }
 })

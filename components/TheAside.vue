@@ -75,13 +75,13 @@ const emit = defineEmits<{
 }>()
 
 const productsStore = useProductsStore()
-const { selectedRarityIndices, toggleRarity, clearRarities } = productsStore
+const { selectedRarityIndices, toggleRarity, clearRarities, selectedProperties, toggleProperty, clearProperties } =
+  productsStore
 
 const isRarityOpen = ref(true)
 const isPropertiesOpen = ref(true)
 const priceMin = ref('0.00')
 const priceMax = ref('∞')
-const selectedProperties = ref<string[]>([])
 
 const rarities = [{ color: 'blue' }, { color: 'purple' }, { color: 'green' }, { color: 'red' }, { color: 'grey' }]
 
@@ -97,20 +97,11 @@ const toggleProperties = () => {
   isPropertiesOpen.value = !isPropertiesOpen.value
 }
 
-const toggleProperty = (type: string) => {
-  const idx = selectedProperties.value.indexOf(type)
-  if (idx > -1) {
-    selectedProperties.value.splice(idx, 1)
-  } else {
-    selectedProperties.value.push(type)
-  }
-}
-
 const resetFilters = () => {
   priceMin.value = '0.00'
   priceMax.value = '∞'
   clearRarities()
-  selectedProperties.value = []
+  clearProperties()
 }
 
 const close = () => {
