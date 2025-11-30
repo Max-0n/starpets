@@ -34,9 +34,9 @@
           UIButton(appearance="primary" withoutPadding).size-48
             UIIcon(name="cart").size-24
 
-          .header__cart-info
-            p К покупке
-            p 0 $
+          .header__cart-info.text-color-black
+            p.text-size-12 К покупке
+            p.text-weight-700 0 $
 
           UIIcon(name="arrowRight" :class="{ 'active': isActiveCart }").size-18.header__cart-arrow
 </template>
@@ -111,6 +111,7 @@ header {
         align-items: flex-end;
         justify-content: center;
         gap: 4px;
+        min-width: 60px;
       }
 
       &-arrow {
