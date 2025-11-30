@@ -37,7 +37,7 @@
 
       .market__filter-button
         UIButton(appearance="white" @click="isSortOpen = !isSortOpen")
-          UIBadge(color="blue").size-32.mt-4.ml-14.mb-4.mr8
+          UIBadge(color="blue").size-32.mt-8.ml-14.mb-8.mr8
             UIIcon(name="star").size-24
           p.text-weight-500 Популярность
           UIIcon(name="arrowRight" :class="{ 'active': isSortOpen }").ml6.size-18.market__arrow
@@ -60,6 +60,10 @@
               UIBadge(color="red").size-32.mt-4.ml-8.mb-4.mr8
                 UIIcon(name="sortDesc").size-24
               p.text-weight-500 Цена
+
+      UIButton(appearance="white")
+        p.text-weight-500 Цена
+        UIIcon(name="close").size-12.ml8
 
 
 </template>
