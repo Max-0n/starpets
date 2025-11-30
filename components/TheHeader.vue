@@ -1,20 +1,31 @@
 <template lang="pug">
   header
     .header__left
-      UIIcon(name="logo").logo
+      NuxtLink(to="/").logo
+        UIIcon(name="logo")
 
-      .header__tabs
-        NavLink(to="/")
-          UIText(text="Логин" :size="TextSize.s14")
-        NavLink(to="/")
-          UIText(text="header.login" :size="TextSize.s14")
-        NavLink(to="/")
+      .header__tabs.text-size-18
+        NuxtLink(to="/").nav-link
+          p Маркет
+        NuxtLink(to="/products").nav-link
+          p Предметы
+        NuxtLink(to="/sale").nav-link
+          p Продажа
+        NuxtLink(to="/currency").nav-link
+          p R$
+        NuxtLink(to="/help").nav-link
+          p Помощь
 
     .header__right
-
 </template>
 
 <script setup lang="ts">
+const route = useRoute()
+
+const isActive = (path: string) => {
+  return route.path === path
+}
+
 const purchaseAmount = ref('0.00')
 
 const handleLogin = () => {
@@ -47,6 +58,7 @@ header {
       display: flex;
       flex-direction: row;
       align-items: center;
+      height: 100%;
     }
 
     &__left {
@@ -58,6 +70,41 @@ header {
     margin-left: 28px;
     width: 201px;
     height: 32px;
+  }
+
+  .nav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: #838383;
+    text-decoration: none;
+    padding: 0 8px;
+
+    &.is-active,
+    &:hover {
+      color: #000000;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: calc(80% - 16px);
+        height: 3px;
+        background: #FE9920;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+      }
+    }
+
+    &:not(.is-active) {
+      cursor: pointer;
+    }
+    &.is-active {
+      cursor: default;
+    }
   }
 }
 </style>

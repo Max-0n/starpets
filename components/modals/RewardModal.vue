@@ -6,22 +6,12 @@
     ).modal-reward-image
 
 
-    UIText(
-      :text="$t('modal.your_reward')"
-      :size="TextSize.s24"
-    )
+    p.text-size-24(v-html="$t('modal.your_reward')")
     .modal-reward-sparks
-      UIText(
-        :text="reward"
-        :size="TextSize.s32"
-        :weight="TextWeight.w500"
-      )
+      p.text-size-32.text-weight-500 {{ reward }}
       UIIcon(name="coin").size-28.color-yellow
 
-    UIText(
-      :text="$t('modal.tap_continue')"
-      :weight="TextWeight.w500"
-    ).mt40
+    p.text-weight-500.mt40(v-html="$t('modal.tap_continue')")
 </template>
 
 <script setup lang="ts">
