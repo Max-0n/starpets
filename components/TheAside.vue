@@ -33,7 +33,7 @@ aside.aside
       
       // Rarity Section
       .aside__section
-        .aside__section-header(@click="toggleRarity")
+        .aside__section-header(@click="isRarityOpen = !isRarityOpen")
           p.aside__section-title.text-size-16.text-weight-500 Редкость
           UIIcon(name="arrowRight" :class="{ 'active': isRarityOpen }").size-18.aside__arrow
         .aside__section-content(v-show="isRarityOpen")
@@ -96,16 +96,12 @@ const properties = [
   { type: 'raid', label: 'Райд' },
 ]
 
-const toggleRarity = (index?: number) => {
-  if (index !== undefined) {
-    const idx = selectedRarities.value.indexOf(index)
-    if (idx > -1) {
-      selectedRarities.value.splice(idx, 1)
-    } else {
-      selectedRarities.value.push(index)
-    }
+const toggleRarity = (index: number) => {
+  const idx = selectedRarities.value.indexOf(index)
+  if (idx > -1) {
+    selectedRarities.value.splice(idx, 1)
   } else {
-    isRarityOpen.value = !isRarityOpen.value
+    selectedRarities.value.push(index)
   }
 }
 
