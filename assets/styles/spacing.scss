@@ -40,7 +40,7 @@
 }
 
 // Использование миксина для нужных размеров
-@include paddingSpacing('p', 2, 4, 8, 12);
+@include paddingSpacing('p', 0, 2, 4, 8, 12);
 @include paddingSpacing('pt', 2, 4, 8, 12);
 @include paddingSpacing('pb', 2, 4, 8, 12);
 @include paddingSpacing('pl', 2, 4, 8, 12);

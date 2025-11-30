@@ -1,6 +1,6 @@
 <template lang="pug">
   button(
-    :class="{ wide, round, ghost, 'with-press': !withoutPress, active, [`size-${size}`]: size }"
+    :class="{ wide, round, ghost, 'with-press': !withoutPress, 'without-padding': withoutPadding, active, [`size-${size}`]: size }"
     :appearance="appearance"
     :disabled="disabled || progress"
   )
@@ -23,6 +23,7 @@ withDefaults(
     ghost?: boolean
     appearance?: ButtonAppearance
     withoutPress?: boolean
+    withoutPadding?: boolean
     size?: 'default' | 'xl'
   }>(),
   {
@@ -33,6 +34,7 @@ withDefaults(
     round: false,
     ghost: false,
     withoutPress: false,
+    withoutPadding: false,
     size: 'default',
   }
 )
@@ -44,7 +46,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  padding: 14px 30px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -165,15 +167,13 @@ button {
     box-shadow: none;
   }
 
+  &.without-padding {
+    padding: 0;
+  }
+
   &.with-press:not([disabled]):active,
   &.active {
     transform: scale(0.97);
-    filter: brightness(0.95);
-  }
-
-  &.with-press:not([disabled]):hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 }
 </style>

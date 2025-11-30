@@ -123,7 +123,6 @@ const inputId = computed(() => props.id || `input-${Math.random().toString(36).s
   border: none;
   outline: none;
   color: var(--color-white);
-  font-family: var(--font-family);
   font-weight: 500;
   line-height: 1.5;
   padding: 0;

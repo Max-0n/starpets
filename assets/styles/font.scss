@@ -15,10 +15,6 @@
   }
 }
 
-@mixin text-font($font) {
-  font-family: $font, sans-serif;
-}
-
 @mixin text-color($color) {
   color: $color;
 }
@@ -81,7 +77,3 @@
 .text-color-danger  { @include text-color(var(--color-danger)); }
 .text-color-blue  { @include text-color(var(--color-blue)); }
 .text-color-yellow  { @include text-color(var(--color-yellow)); }
-
-
-//Шрифты
-.text-font-rubik   { @include text-font(var(--font-rubik)); }

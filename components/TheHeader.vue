@@ -4,7 +4,7 @@
       NuxtLink(to="/").logo
         UIIcon(name="logo")
 
-      .header__tabs.text-size-18
+      .header__tabs.text-size-18.text-weight-500
         NuxtLink(to="/").nav-link
           p Маркет
         NuxtLink(to="/products").nav-link
@@ -17,7 +17,21 @@
           p Помощь
 
     .header__right
-      
+      UIButton(appearance="secondary" withoutPadding).size-48
+        UIFlag(code="ru").size-24
+
+      UIButton(appearance="secondary" withoutPadding).size-48
+        p $
+    
+      UIButton(appearance="secondary")
+        p Вход
+      UIButton(appearance="primary")
+        p Регистрация
+        UIIcon(name="arrowFullRight").ml6.size-12
+
+      UIButton(appearance="secondary" withoutPadding).header__cart
+        UIButton(appearance="primary" withoutPadding).size-48
+          UIIcon(name="cart").size-24
 </template>
 
 <script setup lang="ts">
@@ -64,6 +78,18 @@ header {
 
     &__left {
       gap: 80px;
+    }
+    &__right {
+      gap: 24px;
+    }
+
+    &__cart {
+      height: 100%;
+      padding: 0 16px;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
