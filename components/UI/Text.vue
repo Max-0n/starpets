@@ -21,12 +21,12 @@ withDefaults(
     align?: TextAlign
   }>(),
   {
-    color: TextColor.white,
+    color: TextColor.black,
     as: 'p',
     shadow: TextShadow.none,
     transform: TextTransform.none,
-    weight: TextWeight.w700,
-    size: TextSize.s14,
+    weight: TextWeight.w500,
+    size: TextSize.s18,
   }
 )
 </script>

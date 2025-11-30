@@ -1,4 +1,6 @@
 <template lang="pug">
+  TheHeader
+
   main
     NuxtPage
 
@@ -18,7 +20,6 @@ footer {
 
 main {
   display: flex;
-  padding-bottom: 20px;
-  min-height: 100vh;
+  padding-top: 82px;
 }
 </style>
