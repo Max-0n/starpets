@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useProducts } from '~/entities/product/api/useProducts'
 import type { FetchProductsRequest, FetchProductsResponse } from '~/shared/types/product'
 
@@ -31,7 +31,6 @@ vi.mock('~/entities/product/model/productsStore', () => ({
 
 import { useQuery } from '@tanstack/vue-query'
 import { productApi } from '~/entities/product/api/index'
-import { useProductsStore } from '~/entities/product/model/productsStore'
 
 describe('useProducts', () => {
   const mockRequest: FetchProductsRequest = {
