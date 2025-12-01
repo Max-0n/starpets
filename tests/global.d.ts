@@ -1,5 +1,3 @@
-import { vi } from 'vitest'
-
 declare global {
   function useRuntimeConfig(): {
     public: {
