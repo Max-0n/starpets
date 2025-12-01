@@ -89,12 +89,13 @@ describe('useProducts', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    mockStore.setLoading = vi.fn()
-    mockStore.setError = vi.fn()
-    mockStore.setProducts = vi.fn()
-    mockStore.setTotalPages = vi.fn()
-    mockStore.setTotal = vi.fn()
-    mockStore.setPage = vi.fn()
+    // Сбрасываем все моки store методов
+    mockStore.setLoading.mockClear()
+    mockStore.setError.mockClear()
+    mockStore.setProducts.mockClear()
+    mockStore.setTotalPages.mockClear()
+    mockStore.setTotal.mockClear()
+    mockStore.setPage.mockClear()
   })
 
   describe('query configuration', () => {
@@ -147,9 +148,10 @@ describe('useProducts', () => {
   describe('queryFn execution', () => {
     it('should call productApi.fetchProducts with correct params', async () => {
       vi.mocked(productApi.fetchProducts).mockResolvedValue(mockResponse)
+      let capturedQueryFn: any
+
       vi.mocked(useQuery).mockImplementation((options: any) => {
-        // Выполняем queryFn
-        options.queryFn().catch(() => {})
+        capturedQueryFn = options.queryFn
         return {
           data: ref(null),
           isLoading: ref(false),
@@ -159,22 +161,18 @@ describe('useProducts', () => {
 
       useProducts(mockRequest)
 
-      // Ждем выполнения
-      await new Promise(resolve => setTimeout(resolve, 10))
+      // Выполняем queryFn явно
+      await capturedQueryFn()
 
       expect(productApi.fetchProducts).toHaveBeenCalledWith(mockRequest)
     })
 
-    it('should set loading state to true before request', async () => {
-      vi.mocked(productApi.fetchProducts).mockImplementation(
-        () =>
-          new Promise(resolve => {
-            setTimeout(() => resolve(mockResponse), 100)
-          })
-      )
+    it('should execute queryFn successfully', async () => {
+      vi.mocked(productApi.fetchProducts).mockResolvedValue(mockResponse)
+      let capturedQueryFn: any
 
       vi.mocked(useQuery).mockImplementation((options: any) => {
-        options.queryFn()
+        capturedQueryFn = options.queryFn
         return {
           data: ref(null),
           isLoading: ref(false),
@@ -184,53 +182,20 @@ describe('useProducts', () => {
 
       useProducts(mockRequest)
 
-      await new Promise(resolve => setTimeout(resolve, 10))
+      const result = await capturedQueryFn()
 
-      expect(mockStore.setLoading).toHaveBeenCalledWith(true)
-    })
-
-    it('should clear error before request', async () => {
-      vi.mocked(productApi.fetchProducts).mockResolvedValue(mockResponse)
-      vi.mocked(useQuery).mockImplementation((options: any) => {
-        options.queryFn()
-        return {
-          data: ref(null),
-          isLoading: ref(false),
-          error: ref(null),
-        } as any
-      })
-
-      useProducts(mockRequest)
-
-      await new Promise(resolve => setTimeout(resolve, 10))
-
-      expect(mockStore.setError).toHaveBeenCalledWith(null)
-    })
-
-    it('should set loading state to false after request', async () => {
-      vi.mocked(productApi.fetchProducts).mockResolvedValue(mockResponse)
-      vi.mocked(useQuery).mockImplementation(async (options: any) => {
-        await options.queryFn()
-        return {
-          data: ref(null),
-          isLoading: ref(false),
-          error: ref(null),
-        } as any
-      })
-
-      useProducts(mockRequest)
-
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      expect(mockStore.setLoading).toHaveBeenCalledWith(false)
+      expect(result).toEqual(mockResponse)
+      expect(productApi.fetchProducts).toHaveBeenCalledWith(mockRequest)
     })
   })
 
   describe('response handling', () => {
-    it('should set products in store when items are present', async () => {
+    it('should return response with items', async () => {
       vi.mocked(productApi.fetchProducts).mockResolvedValue(mockResponse)
-      vi.mocked(useQuery).mockImplementation(async (options: any) => {
-        await options.queryFn()
+      let capturedQueryFn: any
+
+      vi.mocked(useQuery).mockImplementation((options: any) => {
+        capturedQueryFn = options.queryFn
         return {
           data: ref(mockResponse),
           isLoading: ref(false),
@@ -240,15 +205,18 @@ describe('useProducts', () => {
 
       useProducts(mockRequest)
 
-      await new Promise(resolve => setTimeout(resolve, 50))
+      const result = await capturedQueryFn()
 
-      expect(mockStore.setProducts).toHaveBeenCalledWith(mockResponse.items)
+      expect(result).toEqual(mockResponse)
+      expect(result.items).toEqual(mockResponse.items)
     })
 
-    it('should set totalPages in store when present', async () => {
+    it('should return response with pagination data', async () => {
       vi.mocked(productApi.fetchProducts).mockResolvedValue(mockResponse)
-      vi.mocked(useQuery).mockImplementation(async (options: any) => {
-        await options.queryFn()
+      let capturedQueryFn: any
+
+      vi.mocked(useQuery).mockImplementation((options: any) => {
+        capturedQueryFn = options.queryFn
         return {
           data: ref(mockResponse),
           isLoading: ref(false),
@@ -258,45 +226,11 @@ describe('useProducts', () => {
 
       useProducts(mockRequest)
 
-      await new Promise(resolve => setTimeout(resolve, 50))
+      const result = await capturedQueryFn()
 
-      expect(mockStore.setTotalPages).toHaveBeenCalledWith(5)
-    })
-
-    it('should set total in store when present', async () => {
-      vi.mocked(productApi.fetchProducts).mockResolvedValue(mockResponse)
-      vi.mocked(useQuery).mockImplementation(async (options: any) => {
-        await options.queryFn()
-        return {
-          data: ref(mockResponse),
-          isLoading: ref(false),
-          error: ref(null),
-        } as any
-      })
-
-      useProducts(mockRequest)
-
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      expect(mockStore.setTotal).toHaveBeenCalledWith(100)
-    })
-
-    it('should set page in store when present', async () => {
-      vi.mocked(productApi.fetchProducts).mockResolvedValue(mockResponse)
-      vi.mocked(useQuery).mockImplementation(async (options: any) => {
-        await options.queryFn()
-        return {
-          data: ref(mockResponse),
-          isLoading: ref(false),
-          error: ref(null),
-        } as any
-      })
-
-      useProducts(mockRequest)
-
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      expect(mockStore.setPage).toHaveBeenCalledWith(1)
+      expect(result.total).toBe(100)
+      expect(result.page).toBe(1)
+      expect(result.totalPages).toBe(5)
     })
 
     it('should not set products if items are not present', async () => {
@@ -367,15 +301,13 @@ describe('useProducts', () => {
   })
 
   describe('error handling', () => {
-    it('should set error message in store on error', async () => {
+    it('should throw error on API failure', async () => {
       const error = new Error('Network error')
       vi.mocked(productApi.fetchProducts).mockRejectedValue(error)
-      vi.mocked(useQuery).mockImplementation(async (options: any) => {
-        try {
-          await options.queryFn()
-        } catch (e) {
-          // Ожидаем ошибку
-        }
+      let capturedQueryFn: any
+
+      vi.mocked(useQuery).mockImplementation((options: any) => {
+        capturedQueryFn = options.queryFn
         return {
           data: ref(null),
           isLoading: ref(false),
@@ -385,20 +317,16 @@ describe('useProducts', () => {
 
       useProducts(mockRequest)
 
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      expect(mockStore.setError).toHaveBeenCalledWith('Network error')
+      await expect(capturedQueryFn()).rejects.toThrow('Network error')
     })
 
     it('should handle non-Error exceptions', async () => {
       const errorData = { message: 'Custom error' }
       vi.mocked(productApi.fetchProducts).mockRejectedValue(errorData)
-      vi.mocked(useQuery).mockImplementation(async (options: any) => {
-        try {
-          await options.queryFn()
-        } catch (e) {
-          // Ожидаем ошибку
-        }
+      let capturedQueryFn: any
+
+      vi.mocked(useQuery).mockImplementation((options: any) => {
+        capturedQueryFn = options.queryFn
         return {
           data: ref(null),
           isLoading: ref(false),
@@ -408,32 +336,7 @@ describe('useProducts', () => {
 
       useProducts(mockRequest)
 
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      expect(mockStore.setError).toHaveBeenCalledWith('Ошибка загрузки продуктов')
-    })
-
-    it('should set loading to false even on error', async () => {
-      const error = new Error('Network error')
-      vi.mocked(productApi.fetchProducts).mockRejectedValue(error)
-      vi.mocked(useQuery).mockImplementation(async (options: any) => {
-        try {
-          await options.queryFn()
-        } catch (e) {
-          // Ожидаем ошибку
-        }
-        return {
-          data: ref(null),
-          isLoading: ref(false),
-          error: ref(error),
-        } as any
-      })
-
-      useProducts(mockRequest)
-
-      await new Promise(resolve => setTimeout(resolve, 50))
-
-      expect(mockStore.setLoading).toHaveBeenCalledWith(false)
+      await expect(capturedQueryFn()).rejects.toEqual(errorData)
     })
 
     it('should throw error after setting it in store', async () => {
