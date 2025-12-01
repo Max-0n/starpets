@@ -1,21 +1,21 @@
-import { defineVitestConfig } from '@nuxt/test-utils/config'
 import { resolve } from 'path'
 import { fileURLToPath } from 'url'
+import { defineConfig } from 'vitest/config'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-export default defineVitestConfig({
+export default defineConfig({
+  resolve: {
+    alias: {
+      '~': resolve(__dirname, './src'),
+      '@': resolve(__dirname, './src'),
+    },
+  },
   test: {
     environment: 'happy-dom',
     globals: true,
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.test.ts'],
-    resolve: {
-      alias: {
-        '~': resolve(__dirname, './src'),
-        '@': resolve(__dirname, './src'),
-      },
-    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

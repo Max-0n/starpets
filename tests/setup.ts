@@ -40,6 +40,16 @@ global.defineStore = vi.fn((name, setup) => {
   return () => setup()
 })
 
+// Мокаем Nuxt auto-imports для stores
+global.useProductsStore = vi.fn(() => ({
+  setLoading: vi.fn(),
+  setError: vi.fn(),
+  setProducts: vi.fn(),
+  setTotalPages: vi.fn(),
+  setTotal: vi.fn(),
+  setPage: vi.fn(),
+}))
+
 beforeEach(() => {
   vi.clearAllMocks()
 })
