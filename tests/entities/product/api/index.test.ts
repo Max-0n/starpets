@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { productApi } from '~/entities/product/api/index'
+import { $api } from '~/shared/api/useApi'
 import type { FetchProductsRequest, FetchProductsResponse } from '~/shared/types/product'
 
 // Мокаем $api
@@ -8,8 +9,6 @@ vi.mock('~/shared/api/useApi', () => ({
     post: vi.fn(),
   },
 }))
-
-import { $api } from '~/shared/api/useApi'
 
 describe('productApi', () => {
   beforeEach(() => {

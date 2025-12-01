@@ -1,5 +1,8 @@
+import { useQuery } from '@tanstack/vue-query'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
+import { productApi } from '~/entities/product/api/index'
+import { useProducts } from '~/entities/product/api/useProducts'
 import type { FetchProductsRequest, FetchProductsResponse } from '~/shared/types/product'
 
 // Мокаем useRuntimeConfig для useApi внутри useProducts
@@ -48,10 +51,6 @@ const mockStore = {
 vi.mock('~/entities/product/model/productsStore', () => ({
   useProductsStore: vi.fn(() => mockStore),
 }))
-
-import { useQuery } from '@tanstack/vue-query'
-import { productApi } from '~/entities/product/api/index'
-import { useProducts } from '~/entities/product/api/useProducts'
 
 describe('useProducts', () => {
   const mockRequest: FetchProductsRequest = {

@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { $api } from '~/shared/api/useApi'
 
 // Мокаем useRuntimeConfig ДО импорта
 vi.mock('#app', async () => {
@@ -21,8 +22,6 @@ global.useRuntimeConfig = () => ({
     appEnv: 'test',
   },
 })
-
-import { $api } from '~/shared/api/useApi'
 
 // Мокаем $fetch
 const mockFetch = vi.fn()
