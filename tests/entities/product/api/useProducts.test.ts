@@ -1,7 +1,27 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
-import { useProducts } from '~/entities/product/api/useProducts'
 import type { FetchProductsRequest, FetchProductsResponse } from '~/shared/types/product'
+
+// Мокаем useRuntimeConfig для useApi внутри useProducts
+vi.mock('#app', async () => {
+  const actual = await vi.importActual('#app')
+  return {
+    ...actual,
+    useRuntimeConfig: () => ({
+      public: {
+        apiUrl: 'http://localhost:3000/api',
+        appEnv: 'test',
+      },
+    }),
+  }
+})
+
+global.useRuntimeConfig = () => ({
+  public: {
+    apiUrl: 'http://localhost:3000/api',
+    appEnv: 'test',
+  },
+})
 
 // Мокаем TanStack Query
 vi.mock('@tanstack/vue-query', () => ({
@@ -31,6 +51,7 @@ vi.mock('~/entities/product/model/productsStore', () => ({
 
 import { useQuery } from '@tanstack/vue-query'
 import { productApi } from '~/entities/product/api/index'
+import { useProducts } from '~/entities/product/api/useProducts'
 
 describe('useProducts', () => {
   const mockRequest: FetchProductsRequest = {

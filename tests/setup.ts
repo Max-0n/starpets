@@ -1,14 +1,23 @@
 import { beforeEach, vi } from 'vitest'
 import { defineComponent } from 'vue'
 
-// Мокаем Nuxt composables
-vi.mock('#app', () => ({
-  useRuntimeConfig: vi.fn(() => ({
+// Используем vi.hoisted для моков, которые нужны до импорта
+const { mockUseRuntimeConfig } = vi.hoisted(() => {
+  const mockFn = () => ({
     public: {
       apiUrl: 'http://localhost:3000/api',
       appEnv: 'test',
     },
-  })),
+  })
+  return { mockUseRuntimeConfig: mockFn }
+})
+
+// Мокаем Nuxt composables глобально (для auto-imports)
+global.useRuntimeConfig = mockUseRuntimeConfig as any
+
+// Мокаем Nuxt composables через #app
+vi.mock('#app', () => ({
+  useRuntimeConfig: mockUseRuntimeConfig,
   useNuxtApp: vi.fn(() => ({
     $i18n: {
       t: (key: string) => key,

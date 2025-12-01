@@ -1,15 +1,28 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { $api } from '~/shared/api/useApi'
 
-// Мокаем Nuxt composables
-vi.mock('#app', () => ({
-  useRuntimeConfig: () => ({
-    public: {
-      apiUrl: 'http://localhost:3000/api',
-      appEnv: 'test',
-    },
-  }),
-}))
+// Мокаем useRuntimeConfig ДО импорта
+vi.mock('#app', async () => {
+  const actual = await vi.importActual('#app')
+  return {
+    ...actual,
+    useRuntimeConfig: () => ({
+      public: {
+        apiUrl: 'http://localhost:3000/api',
+        appEnv: 'test',
+      },
+    }),
+  }
+})
+
+// Устанавливаем глобальный useRuntimeConfig для auto-imports
+global.useRuntimeConfig = () => ({
+  public: {
+    apiUrl: 'http://localhost:3000/api',
+    appEnv: 'test',
+  },
+})
+
+import { $api } from '~/shared/api/useApi'
 
 // Мокаем $fetch
 const mockFetch = vi.fn()
